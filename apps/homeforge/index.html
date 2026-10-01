@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HomeForge | Unfazed Action</title>
+
+    <meta
+        name="description"
+        content="HomeForge is the Unfazed Action home management app for inventory, shopping, expiring items, household organization, meal connections, chores, and family coordination."
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/assets/ua-logo.png"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="/assets/ua-logo.png"
+    >
+
+    <style>
+        :root {
+            --ua-black: #050505;
+            --ua-dark: #111111;
+            --ua-white: #ffffff;
+            --ua-text: #dddddd;
+            --ua-muted: #929292;
+            --ua-border: #292929;
+            --ua-red: #E50914;
+
+            --hf-green: #38d46f;
+            --hf-green-soft: rgba(56, 212, 111, 0.13);
+            --hf-green-border: rgba(56, 212, 111, 0.34);
+            --hf-card: #111813;
+            --hf-card-2: #0d130f;
+
+            --max-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--ua-black);
+            color: var(--ua-white);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--max-width), calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            color: var(--hf-green);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 22px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-weight: 800;
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            background: var(--hf-green);
+            color: #071108;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+
+        .button-secondary {
+            background: #111111;
+            border-color: #383838;
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #191919;
+            border-color: #505050;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.94);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            font-size: 1.2rem;
+        }
+
+        .brand-logo {
+            width: 54px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #cfcfcf;
+            font-size: 0.96rem;
+            transition: 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        nav a.active {
+            font-weight: 800;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 720px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #171717;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 760px;
+            height: 760px;
+            right: -250px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(56, 212, 111, 0.18) 0%,
+                    rgba(56, 212, 111, 0.05) 34%,
+                    transparent 68%
+                );
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 70px;
+            align-items: center;
+            padding: 110px 0;
+        }
+
+        .product-mark {
+            width: 86px;
+            height: 86px;
+            border-radius: 24px;
+            border: 1px solid var(--hf-green-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(56, 212, 111, 0.12),
+                    #0b100c
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.85rem;
+            letter-spacing: -0.04em;
+            color: var(--hf-green);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            margin: 12px 0 18px;
+            font-size: clamp(4rem, 9vw, 7rem);
+            line-height: 0.9;
+            letter-spacing: -0.065em;
+        }
+
+        .hero-tagline {
+            margin: 0;
+            color: white;
+            font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+            font-weight: 800;
+        }
+
+        .hero-copy {
+            max-width: 720px;
+            margin: 24px 0 0;
+            color: var(--ua-text);
+            font-size: 1.08rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 34px;
+        }
+
+        .hero-status {
+            padding: 34px;
+            border-radius: 24px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(17, 24, 19, 0.96),
+                    rgba(9, 13, 10, 0.98)
+                );
+        }
+
+        .status-badge {
+            display: inline-flex;
+            min-height: 30px;
+            align-items: center;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: var(--hf-green-soft);
+            border: 1px solid var(--hf-green-border);
+            color: var(--hf-green);
+            font-size: 0.74rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero-status h2 {
+            margin: 20px 0 12px;
+            font-size: 2rem;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-status p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        .status-list {
+            display: grid;
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 14px;
+            border-top: 1px solid #252525;
+        }
+
+        .status-item span:first-child {
+            color: #bdbdbd;
+        }
+
+        .status-item strong {
+            text-align: right;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            padding: 96px 0;
+        }
+
+        .section-dark {
+            background: var(--ua-dark);
+        }
+
+        .section-title {
+            margin: 10px 0 18px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.05em;
+        }
+
+        .section-copy {
+            max-width: 760px;
+            margin: 0;
+            color: var(--ua-text);
+            font-size: 1.08rem;
+        }
+
+        /* PURPOSE */
+
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-top: 50px;
+        }
+
+        .purpose-card {
+            padding: 32px;
+            border-radius: 22px;
+            border: 1px solid var(--ua-border);
+            background: var(--hf-card-2);
+        }
+
+        .purpose-card h3 {
+            margin: 0 0 12px;
+            font-size: 1.45rem;
+        }
+
+        .purpose-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        /* FEATURES */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            min-height: 330px;
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--hf-card),
+                    var(--hf-card-2)
+                );
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.22s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #33513c;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--hf-green-soft);
+            border: 1px solid var(--hf-green-border);
+            color: var(--hf-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .feature-card h3 {
+            margin: 24px 0 12px;
+            font-size: 1.65rem;
+            letter-spacing: -0.035em;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        .feature-status {
+            margin-top: 30px;
+            color: #b7b7b7;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .feature-status.current {
+            color: var(--hf-green);
+        }
+
+        /* CONNECTION */
+
+        .connection-panel {
+            padding: 48px;
+            border-radius: 28px;
+            border: 1px solid #2a2a2a;
+            background:
+                linear-gradient(
+                    135deg,
+                    #111713,
+                    #0b100d
+                );
+        }
+
+        .connection-panel h2 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .connection-panel p {
+            max-width: 780px;
+            margin: 0;
+            color: var(--ua-text);
+        }
+
+        .connection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 34px;
+        }
+
+        .connection-card {
+            padding: 24px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .connection-card strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .connection-card p {
+            color: var(--ua-muted);
+            font-size: 0.95rem;
+        }
+
+        /* FAMILY */
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 46px;
+        }
+
+        .family-card {
+            padding: 30px;
+            border-radius: 22px;
+            border: 1px solid var(--ua-border);
+            background: #0d0d0d;
+        }
+
+        .family-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+        }
+
+        .family-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        /* UA PANEL */
+
+        .ua-panel {
+            padding: 48px;
+            border-radius: 28px;
+            border: 1px solid #2a2a2a;
+            background:
+                linear-gradient(
+                    135deg,
+                    #121212,
+                    #180607
+                );
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .ua-panel .eyebrow {
+            color: var(--ua-red);
+        }
+
+        .ua-panel h2 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .ua-panel p {
+            max-width: 760px;
+            margin: 0;
+            color: var(--ua-text);
+        }
+
+        .ua-panel img {
+            width: 100px;
+            height: auto;
+        }
+
+        /* CTA */
+
+        .cta-panel {
+            text-align: center;
+            padding: 74px 30px;
+            border-radius: 28px;
+            border: 1px solid var(--hf-green-border);
+            background:
+                linear-gradient(
+                    135deg,
+                    #111813,
+                    #0b100d
+                );
+        }
+
+        .cta-panel img {
+            width: 88px;
+            height: auto;
+            margin-bottom: 24px;
+        }
+
+        .cta-panel h2 {
+            margin: 10px 0 18px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .cta-panel p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: var(--ua-text);
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 46px 0;
+            background: #030303;
+            border-top: 1px solid #1d1d1d;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 48px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .footer-brand {
+            font-weight: 800;
+        }
+
+        .footer-copy {
+            margin-top: 5px;
+            color: #717171;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #8e8e8e;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 980px) {
+            nav {
+                display: none;
+            }
+
+            .hero-grid,
+            .purpose-grid,
+            .feature-grid,
+            .family-grid,
+            .connection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ua-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .ua-panel img {
+                display: none;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                width: min(100% - 28px, var(--max-width));
+            }
+
+            .nav {
+                min-height: 66px;
+            }
+
+            .brand {
+                font-size: 1rem;
+                gap: 8px;
+            }
+
+            .brand-logo {
+                width: 46px;
+                height: 34px;
+            }
+
+            .nav-actions .button-secondary {
+                display: none;
+            }
+
+            .nav-actions .button {
+                min-height: 42px;
+                padding: 0 16px;
+                font-size: 0.88rem;
+            }
+
+            .hero-grid {
+                padding: 90px 0;
+                gap: 42px;
+            }
+
+            .hero h1 {
+                font-size: clamp(3.6rem, 17vw, 5.4rem);
+            }
+
+            .section {
+                padding: 72px 0;
+            }
+
+            .connection-panel,
+            .ua-panel {
+                padding: 32px 24px;
+            }
+
+            .cta-panel {
+                padding: 54px 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="container nav">
+
+        <a
+            class="brand"
+            href="/"
+        >
+            <img
+                src="/assets/ua-logo.png"
+                alt="Unfazed Action logo"
+                class="brand-logo"
+            >
+
+            <span>
+                UNFAZED ACTION
+            </span>
+        </a>
+
+        <nav>
+            <a href="/#about">
+                About
+            </a>
+
+            <a
+                href="/apps/"
+                class="active"
+            >
+                Apps
+            </a>
+
+            <a href="/#ua-plus">
+                UA+
+            </a>
+
+            <a href="/#family">
+                Family
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+        </nav>
+
+        <div class="nav-actions">
+
+            <a
+                class="button button-secondary"
+                href="/#account"
+            >
+                Sign In
+            </a>
+
+            <a
+                class="button button-primary"
+                href="/apps/"
+            >
+                All UA Apps
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="container hero-grid">
+
+            <div>
+
+                <div class="product-mark">
+                    HF
+                </div>
+
+                <div class="eyebrow">
+                    Unfazed Action Home
+                </div>
+
+                <h1>
+                    HOMEFORGE
+                </h1>
+
+                <p class="hero-tagline">
+                    Know your home. Run it with confidence.
+                </p>
+
+                <p class="hero-copy">
+                    HomeForge is being built as the household command center
+                    inside Unfazed Action. It brings inventory, shopping,
+                    expiration awareness, chores, household members, and
+                    future meal connections together in one place.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a
+                        class="button button-primary"
+                        href="#features"
+                    >
+                        Explore Features
+                    </a>
+
+                    <a
+                        class="button button-secondary"
+                        href="/apps/"
+                    >
+                        Back to UA Apps
+                    </a>
+
+                </div>
+
+            </div>
+
+            <aside class="hero-status">
+
+                <span class="status-badge">
+                    Planned
+                </span>
+
+                <h2>
+                    One place to understand what your home needs.
+                </h2>
+
+                <p>
+                    HomeForge is designed to make household information useful,
+                    shared, and easy to act on.
+                </p>
+
+                <div class="status-list">
+
+                    <div class="status-item">
+                        <span>Inventory</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>Shopping Lists</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>Family Profiles</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>UA Account</span>
+                        <strong>Shared Core</strong>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                The idea
+            </div>
+
+            <h2 class="section-title">
+                Your home already has systems. HomeForge helps you see them.
+            </h2>
+
+            <p class="section-copy">
+                Food, supplies, chores, shopping, shared responsibilities,
+                and household routines are already connected in real life.
+                HomeForge is being designed to bring those pieces together
+                without turning home management into another complicated job.
+            </p>
+
+            <div class="purpose-grid">
+
+                <div class="purpose-card">
+                    <h3>Know what you have</h3>
+                    <p>
+                        Track household inventory so important supplies do not
+                        disappear unnoticed until the moment you need them.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Know what you need</h3>
+                    <p>
+                        Low quantities can feed directly into shopping lists,
+                        helping the household move from awareness to action.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Keep the household connected</h3>
+                    <p>
+                        Shared members, family roles, and future child profiles
+                        can help everyone participate appropriately.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Reduce wasted effort</h3>
+                    <p>
+                        Expiration awareness, room organization, and connected
+                        meal planning can help use what is already in the home.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section
+        class="section section-dark"
+        id="features"
+    >
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Planned core features
+            </div>
+
+            <h2 class="section-title">
+                The HomeForge toolkit.
+            </h2>
+
+            <p class="section-copy">
+                The product direction centers on practical household tools that
+                can work together instead of living in separate lists and apps.
+            </p>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            IN
+                        </div>
+
+                        <h3>
+                            Household Inventory
+                        </h3>
+
+                        <p>
+                            Track household items by quantity, category, room,
+                            and status so the family has a clearer picture of
+                            what is available at home.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Direction
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            SL
+                        </div>
+
+                        <h3>
+                            Smart Shopping List
+                        </h3>
+
+                        <p>
+                            When an item runs low, HomeForge can help move it
+                            onto a shared shopping list instead of relying on
+                            someone to remember later.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Direction
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            EX
+                        </div>
+
+                        <h3>
+                            Expiring Soon
+                        </h3>
+
+                        <p>
+                            Surface food and household items that are nearing
+                            expiration so they can be used before they become
+                            waste.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Direction
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            RM
+                        </div>
+
+                        <h3>
+                            Rooms & Organization
+                        </h3>
+
+                        <p>
+                            Organize household information by room and support a
+                            rotating cleaning schedule that makes regular home
+                            care easier to understand.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Planned
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            CH
+                        </div>
+
+                        <h3>
+                            Shared Chores
+                        </h3>
+
+                        <p>
+                            Household tasks can eventually be assigned and
+                            shared, including parent-authorized child profiles
+                            for age-appropriate participation.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Planned
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            MS
+                        </div>
+
+                        <h3>
+                            Meal Suggestions
+                        </h3>
+
+                        <p>
+                            Over time, HomeForge inventory can connect with
+                            MealForge to help suggest meals based on what the
+                            household already has available.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Future Connection
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="connection-panel">
+
+                <div class="eyebrow">
+                    Connected household
+                </div>
+
+                <h2>
+                    Inventory becomes more useful when it connects to action.
+                </h2>
+
+                <p>
+                    HomeForge is not just meant to be a digital list of items.
+                    The value comes from using household information to drive
+                    shopping, meal planning, reminders, and shared routines.
+                </p>
+
+                <div class="connection-grid">
+
+                    <div class="connection-card">
+                        <strong>
+                            Inventory → Shopping
+                        </strong>
+
+                        <p>
+                            Low quantities can become shopping needs without
+                            starting another list from scratch.
+                        </p>
+                    </div>
+
+                    <div class="connection-card">
+                        <strong>
+                            Inventory → Meals
+                        </strong>
+
+                        <p>
+                            Available food can eventually support MealForge
+                            planning and suggestions.
+                        </p>
+                    </div>
+
+                    <div class="connection-card">
+                        <strong>
+                            Home → Family
+                        </strong>
+
+                        <p>
+                            Shared household information can be visible to the
+                            right family members through UA Account roles.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section section-dark">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Family-ready
+            </div>
+
+            <h2 class="section-title">
+                Designed around the household, not just one phone.
+            </h2>
+
+            <p class="section-copy">
+                HomeForge is intended to work naturally with UA Family so
+                adults and managed child profiles can participate in the home
+                at the right level.
+            </p>
+
+            <div class="family-grid">
+
+                <div class="family-card">
+                    <h3>Shared household view</h3>
+                    <p>
+                        Members can work from the same household information
+                        rather than maintaining disconnected personal lists.
+                    </p>
+                </div>
+
+                <div class="family-card">
+                    <h3>Managed child profiles</h3>
+                    <p>
+                        Parent-authorized child accounts can eventually support
+                        shared chores and age-appropriate household tasks.
+                    </p>
+                </div>
+
+                <div class="family-card">
+                    <h3>Invitations</h3>
+                    <p>
+                        Adult household members can join through the existing
+                        UA Family invitation system.
+                    </p>
+                </div>
+
+                <div class="family-card">
+                    <h3>UA+ family access</h3>
+                    <p>
+                        Eligible UA+ family entitlements can extend supported
+                        premium HomeForge features across the household.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="ua-panel">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Unfazed Action
+                    </div>
+
+                    <h2>
+                        HomeForge is one part of the UA household experience.
+                    </h2>
+
+                    <p>
+                        UA Account remains the source of identity, family
+                        membership, invitations, managed profiles, and UA+
+                        status. HomeForge can use that shared foundation while
+                        staying focused on the home itself.
+                    </p>
+
+                </div>
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section section-dark">
+
+        <div class="container">
+
+            <div class="cta-panel">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                >
+
+                <div class="eyebrow">
+                    HomeForge + Unfazed Action
+                </div>
+
+                <h2>
+                    Know your home.
+                    <br>
+                    Make the next action obvious.
+                </h2>
+
+                <p>
+                    HomeForge is being designed to turn everyday household
+                    information into something useful, shared, and easier to
+                    act on.
+                </p>
+
+                <a
+                    class="button button-primary"
+                    href="/apps/"
+                >
+                    Explore All UA Apps
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+
+            <div class="footer-brand-wrap">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                    class="footer-logo"
+                >
+
+                <div class="footer-brand">
+                    UNFAZED ACTION
+                </div>
+
+            </div>
+
+            <div class="footer-copy">
+                © 2026 Unfazed Action. All rights reserved.
+            </div>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/apps/">
+                UA Apps
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+
+            <a href="/#account">
+                UA Account
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
