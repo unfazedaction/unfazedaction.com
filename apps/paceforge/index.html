@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PaceForge | Unfazed Action</title>
+
+    <meta
+        name="description"
+        content="PaceForge is the Unfazed Action running app built around purposeful training, Pace Coach, interval workouts, saved workouts, workout history, and future connected training tools."
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/assets/ua-logo.png"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="/assets/ua-logo.png"
+    >
+
+    <style>
+        :root {
+            --ua-black: #050505;
+            --ua-dark: #111111;
+            --ua-card: #171717;
+            --ua-card-hover: #1d1d1d;
+            --ua-white: #ffffff;
+            --ua-text: #dddddd;
+            --ua-muted: #929292;
+            --ua-border: #292929;
+            --ua-red: #E50914;
+            --ua-red-hover: #ff111d;
+            --max-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--ua-black);
+            color: var(--ua-white);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--max-width), calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            color: var(--ua-red);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 22px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-weight: 800;
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            background: var(--ua-red);
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: var(--ua-red-hover);
+            transform: translateY(-1px);
+        }
+
+        .button-secondary {
+            background: #111111;
+            border-color: #383838;
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #191919;
+            border-color: #505050;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.94);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            font-size: 1.2rem;
+        }
+
+        .brand-logo {
+            width: 54px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #cfcfcf;
+            font-size: 0.96rem;
+            transition: 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        nav a.active {
+            font-weight: 800;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 720px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #171717;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 760px;
+            height: 760px;
+            right: -250px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(229, 9, 20, 0.20) 0%,
+                    rgba(229, 9, 20, 0.06) 34%,
+                    transparent 68%
+                );
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 70px;
+            align-items: center;
+            padding: 110px 0;
+        }
+
+        .product-mark {
+            width: 86px;
+            height: 86px;
+            border-radius: 24px;
+            border: 1px solid #343434;
+            background:
+                linear-gradient(
+                    145deg,
+                    #151515,
+                    #090909
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.85rem;
+            letter-spacing: -0.04em;
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.02);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            margin: 12px 0 18px;
+            font-size: clamp(4rem, 9vw, 7rem);
+            line-height: 0.9;
+            letter-spacing: -0.065em;
+        }
+
+        .hero-tagline {
+            margin: 0;
+            color: white;
+            font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+            font-weight: 800;
+        }
+
+        .hero-copy {
+            max-width: 720px;
+            margin: 24px 0 0;
+            color: var(--ua-text);
+            font-size: 1.08rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 34px;
+        }
+
+        .hero-status {
+            padding: 34px;
+            border-radius: 24px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(23,23,23,0.94),
+                    rgba(10,10,10,0.96)
+                );
+        }
+
+        .hero-status .status-badge {
+            display: inline-flex;
+            min-height: 30px;
+            align-items: center;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: rgba(229, 9, 20, 0.12);
+            border: 1px solid rgba(229, 9, 20, 0.34);
+            color: var(--ua-red);
+            font-size: 0.74rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero-status h2 {
+            margin: 20px 0 12px;
+            font-size: 2rem;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-status p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        .status-list {
+            display: grid;
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 14px;
+            border-top: 1px solid #252525;
+        }
+
+        .status-item span:first-child {
+            color: #bdbdbd;
+        }
+
+        .status-item strong {
+            text-align: right;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            padding: 96px 0;
+        }
+
+        .section-dark {
+            background: var(--ua-dark);
+        }
+
+        .section-title {
+            margin: 10px 0 18px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.05em;
+        }
+
+        .section-copy {
+            max-width: 760px;
+            margin: 0;
+            color: var(--ua-text);
+            font-size: 1.08rem;
+        }
+
+        /* WHAT IT DOES */
+
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-top: 50px;
+        }
+
+        .purpose-card {
+            padding: 32px;
+            border-radius: 22px;
+            border: 1px solid var(--ua-border);
+            background: var(--ua-card);
+        }
+
+        .purpose-card h3 {
+            margin: 0 0 12px;
+            font-size: 1.45rem;
+        }
+
+        .purpose-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        /* FEATURES */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            min-height: 330px;
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    #171717,
+                    #101010
+                );
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.22s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #3d3d3d;
+            background:
+                linear-gradient(
+                    145deg,
+                    #1b1b1b,
+                    #121212
+                );
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(229, 9, 20, 0.12);
+            border: 1px solid rgba(229, 9, 20, 0.25);
+            color: var(--ua-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .feature-card h3 {
+            margin: 24px 0 12px;
+            font-size: 1.65rem;
+            letter-spacing: -0.035em;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        .feature-status {
+            margin-top: 30px;
+            color: #b7b7b7;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .feature-status.current {
+            color: var(--ua-red);
+        }
+
+        /* ROADMAP */
+
+        .roadmap {
+            display: grid;
+            gap: 16px;
+            margin-top: 46px;
+        }
+
+        .roadmap-item {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 30px;
+            align-items: start;
+            padding: 28px 0;
+            border-top: 1px solid #252525;
+        }
+
+        .roadmap-item:first-child {
+            border-top: 0;
+        }
+
+        .roadmap-label {
+            color: var(--ua-red);
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .roadmap-item h3 {
+            margin: 0 0 8px;
+            font-size: 1.35rem;
+        }
+
+        .roadmap-item p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        /* UA INTEGRATION */
+
+        .ua-panel {
+            padding: 48px;
+            border-radius: 28px;
+            border: 1px solid #2a2a2a;
+            background:
+                linear-gradient(
+                    135deg,
+                    #121212,
+                    #190708
+                );
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .ua-panel h2 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .ua-panel p {
+            max-width: 760px;
+            margin: 0;
+            color: var(--ua-text);
+        }
+
+        .ua-panel img {
+            width: 100px;
+            height: auto;
+        }
+
+        /* PLATFORMS */
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 46px;
+        }
+
+        .platform-card {
+            padding: 30px;
+            border-radius: 22px;
+            border: 1px solid var(--ua-border);
+            background: #0d0d0d;
+        }
+
+        .platform-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+        }
+
+        .platform-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        /* CTA */
+
+        .cta-panel {
+            text-align: center;
+            padding: 74px 30px;
+            border-radius: 28px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    135deg,
+                    #121212,
+                    #180607
+                );
+        }
+
+        .cta-panel img {
+            width: 88px;
+            height: auto;
+            margin-bottom: 24px;
+        }
+
+        .cta-panel h2 {
+            margin: 10px 0 18px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .cta-panel p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: var(--ua-text);
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 46px 0;
+            background: #030303;
+            border-top: 1px solid #1d1d1d;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 48px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .footer-brand {
+            font-weight: 800;
+        }
+
+        .footer-copy {
+            margin-top: 5px;
+            color: #717171;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #8e8e8e;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 980px) {
+            nav {
+                display: none;
+            }
+
+            .hero-grid,
+            .purpose-grid,
+            .feature-grid,
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ua-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .ua-panel img {
+                display: none;
+            }
+
+            .roadmap-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                width: min(100% - 28px, var(--max-width));
+            }
+
+            .nav {
+                min-height: 66px;
+            }
+
+            .brand {
+                font-size: 1rem;
+                gap: 8px;
+            }
+
+            .brand-logo {
+                width: 46px;
+                height: 34px;
+            }
+
+            .nav-actions .button-secondary {
+                display: none;
+            }
+
+            .nav-actions .button {
+                min-height: 42px;
+                padding: 0 16px;
+                font-size: 0.88rem;
+            }
+
+            .hero-grid {
+                padding: 90px 0;
+                gap: 42px;
+            }
+
+            .hero h1 {
+                font-size: clamp(3.6rem, 18vw, 5.5rem);
+            }
+
+            .section {
+                padding: 72px 0;
+            }
+
+            .ua-panel {
+                padding: 32px 24px;
+            }
+
+            .cta-panel {
+                padding: 54px 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="container nav">
+
+        <a
+            class="brand"
+            href="/"
+        >
+            <img
+                src="/assets/ua-logo.png"
+                alt="Unfazed Action logo"
+                class="brand-logo"
+            >
+
+            <span>
+                UNFAZED ACTION
+            </span>
+        </a>
+
+        <nav>
+            <a href="/#about">
+                About
+            </a>
+
+            <a
+                href="/apps/"
+                class="active"
+            >
+                Apps
+            </a>
+
+            <a href="/#ua-plus">
+                UA+
+            </a>
+
+            <a href="/#family">
+                Family
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+        </nav>
+
+        <div class="nav-actions">
+
+            <a
+                class="button button-secondary"
+                href="/#account"
+            >
+                Sign In
+            </a>
+
+            <a
+                class="button button-primary"
+                href="/apps/"
+            >
+                All UA Apps
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="container hero-grid">
+
+            <div>
+
+                <div class="product-mark">
+                    PF
+                </div>
+
+                <div class="eyebrow">
+                    Unfazed Action Running
+                </div>
+
+                <h1>
+                    PACEFORGE
+                </h1>
+
+                <p class="hero-tagline">
+                    Every Step Has a Purpose.
+                </p>
+
+                <p class="hero-copy">
+                    PaceForge is being built as a purposeful running platform
+                    for athletes who want more than a stopwatch. It combines
+                    pace guidance, structured workouts, interval training,
+                    workout history, and future coaching intelligence inside
+                    the Unfazed Action ecosystem.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a
+                        class="button button-primary"
+                        href="#features"
+                    >
+                        Explore Features
+                    </a>
+
+                    <a
+                        class="button button-secondary"
+                        href="/apps/"
+                    >
+                        Back to UA Apps
+                    </a>
+
+                </div>
+
+            </div>
+
+            <aside class="hero-status">
+
+                <span class="status-badge">
+                    In Development
+                </span>
+
+                <h2>
+                    Built around purposeful training.
+                </h2>
+
+                <p>
+                    PaceForge is actively being developed as one of the first
+                    core Unfazed Action apps.
+                </p>
+
+                <div class="status-list">
+
+                    <div class="status-item">
+                        <span>Primary platform</span>
+                        <strong>Android</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>iPhone roadmap</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>UA Account</span>
+                        <strong>Integrated</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>UA+</span>
+                        <strong>Supported</strong>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                The idea
+            </div>
+
+            <h2 class="section-title">
+                Running tools that do more than record a run.
+            </h2>
+
+            <p class="section-copy">
+                PaceForge is designed around the idea that every workout
+                should have a purpose. Whether someone is building fitness,
+                learning to pace themselves, running intervals, or training
+                toward a race goal, the app should help them understand what
+                they are doing while they are doing it.
+            </p>
+
+            <div class="purpose-grid">
+
+                <div class="purpose-card">
+                    <h3>Guidance while you run</h3>
+                    <p>
+                        PaceForge is designed to actively support the workout,
+                        not simply display statistics after it is over.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Structure without unnecessary complexity</h3>
+                    <p>
+                        Powerful workout tools should still feel clear and
+                        approachable when someone is standing at the starting
+                        line ready to move.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Your history should matter</h3>
+                    <p>
+                        Completed workouts can eventually help PaceForge provide
+                        better recommendations instead of becoming forgotten
+                        entries in a log.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Part of something larger</h3>
+                    <p>
+                        PaceForge is a specialized running app, while UA Account
+                        and UA+ connect it to the broader Unfazed Action
+                        ecosystem.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section
+        class="section section-dark"
+        id="features"
+    >
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Core features
+            </div>
+
+            <h2 class="section-title">
+                The PaceForge toolkit.
+            </h2>
+
+            <p class="section-copy">
+                The foundation is already centered around guided running,
+                customizable workouts, saved training, and a growing workout
+                history.
+            </p>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            PC
+                        </div>
+
+                        <h3>
+                            Pace Coach
+                        </h3>
+
+                        <p>
+                            Real-time pace guidance designed to help runners
+                            stay near a target pace using live coaching cues,
+                            pace smoothing, thresholds, GPS acquisition logic,
+                            and workout controls.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Feature
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            IN
+                        </div>
+
+                        <h3>
+                            Interval Training
+                        </h3>
+
+                        <p>
+                            Build fully customizable interval sessions with
+                            warmups, cooldowns, work and recovery blocks,
+                            multiple rounds, voice cues, pause/resume, and skip
+                            controls.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Feature
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            SW
+                        </div>
+
+                        <h3>
+                            Saved Workouts
+                        </h3>
+
+                        <p>
+                            Create workouts once and reuse them when it is time
+                            to train, including saved names and structured
+                            spoken workout cues.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Feature
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            WH
+                        </div>
+
+                        <h3>
+                            Workout History
+                        </h3>
+
+                        <p>
+                            Completed workouts are stored as part of a
+                            cloud-aware history system with local fallback,
+                            deletion controls, and future progress analysis.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Growing Feature
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            TM
+                        </div>
+
+                        <h3>
+                            Treadmill Mode
+                        </h3>
+
+                        <p>
+                            Pace Coach will eventually support indoor treadmill
+                            running using a different pace source than GPS,
+                            beginning with manual treadmill speed or pace entry
+                            and potentially connected sensors later.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Planned
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            TP
+                        </div>
+
+                        <h3>
+                            Training Pace Recommendations
+                        </h3>
+
+                        <p>
+                            A future coach-assisted system can use completed
+                            comparable workouts to recommend updates to easy,
+                            tempo, 5K, 10K, and long-run training paces while
+                            keeping the runner in control of every change.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Planned
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Future roadmap
+            </div>
+
+            <h2 class="section-title">
+                PaceForge is designed to keep growing.
+            </h2>
+
+            <p class="section-copy">
+                The long-term vision is broader than the first release. New
+                workout types and connected training tools can be added without
+                losing the simple core experience.
+            </p>
+
+            <div class="roadmap">
+
+                <div class="roadmap-item">
+                    <div class="roadmap-label">
+                        Workout Types
+                    </div>
+
+                    <div>
+                        <h3>
+                            More structured running modes
+                        </h3>
+
+                        <p>
+                            Future modules can include Couch to 5K, Long Run,
+                            Tempo Run, Race Day, Track Workout, and Custom
+                            Workout experiences.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="roadmap-item">
+                    <div class="roadmap-label">
+                        Wearables
+                    </div>
+
+                    <div>
+                        <h3>
+                            Watch support
+                        </h3>
+
+                        <p>
+                            PaceForge is intended to expand beyond the phone,
+                            including support for compatible wearable devices
+                            such as Galaxy Watch.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="roadmap-item">
+                    <div class="roadmap-label">
+                        Coaching
+                    </div>
+
+                    <div>
+                        <h3>
+                            Smarter use of completed workouts
+                        </h3>
+
+                        <p>
+                            Workout history can eventually help power training
+                            insights and recommendations while requiring enough
+                            evidence and user approval before changing saved
+                            training targets.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="roadmap-item">
+                    <div class="roadmap-label">
+                        Progress
+                    </div>
+
+                    <div>
+                        <h3>
+                            Better history and plan summaries
+                        </h3>
+
+                        <p>
+                            Advanced workout filtering and plan-specific
+                            progress summaries are planned after higher-priority
+                            launch and home experience work is complete.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section section-dark">
+
+        <div class="container">
+
+            <div class="ua-panel">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Unfazed Action
+                    </div>
+
+                    <h2>
+                        PaceForge uses UA Account. It does not own it.
+                    </h2>
+
+                    <p>
+                        PaceForge is designed to stay focused on running. UA
+                        Account, UA+ status, family membership, and broader
+                        account management belong to the Unfazed Action
+                        ecosystem. Over time, PaceForge should simply show the
+                        runner's UA status and provide a clear path back to the
+                        central UA Account website for management.
+                    </p>
+
+                </div>
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Platforms
+            </div>
+
+            <h2 class="section-title">
+                Built to reach runners on both major mobile platforms.
+            </h2>
+
+            <p class="section-copy">
+                PaceForge development currently centers on Android, with an
+                iPhone release included in the broader product roadmap.
+            </p>
+
+            <div class="platform-grid">
+
+                <div class="platform-card">
+                    <h3>Android</h3>
+                    <p>
+                        The current PaceForge build is being developed in
+                        Android Studio using Kotlin, including foreground
+                        workout services, notifications, audio cues, Firebase,
+                        and UA Account integration.
+                    </p>
+                </div>
+
+                <div class="platform-card">
+                    <h3>iPhone</h3>
+                    <p>
+                        PaceForge is intended to reach the Apple App Store as
+                        well. Cross-platform planning will continue as the
+                        Android product foundation matures.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section section-dark">
+
+        <div class="container">
+
+            <div class="cta-panel">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                >
+
+                <div class="eyebrow">
+                    PaceForge + Unfazed Action
+                </div>
+
+                <h2>
+                    Every Step Has a Purpose.
+                </h2>
+
+                <p>
+                    PaceForge is one specialized part of a larger Unfazed
+                    Action mission: connect people with their lives so they can
+                    truly be the best version of themselves.
+                </p>
+
+                <a
+                    class="button button-primary"
+                    href="/apps/"
+                >
+                    Explore All UA Apps
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+
+            <div class="footer-brand-wrap">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                    class="footer-logo"
+                >
+
+                <div class="footer-brand">
+                    UNFAZED ACTION
+                </div>
+
+            </div>
+
+            <div class="footer-copy">
+                © 2026 Unfazed Action. All rights reserved.
+            </div>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/apps/">
+                UA Apps
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+
+            <a href="/#account">
+                UA Account
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
