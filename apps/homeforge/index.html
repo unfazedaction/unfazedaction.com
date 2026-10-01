@@ -12,7 +12,7 @@
 
     <meta
         name="description"
-        content="HomeForge is the Unfazed Action home management app for inventory, shopping, expiring items, household organization, meal connections, chores, and family coordination."
+        content="HomeForge is the Unfazed Action home management app for inventory, shopping, expiring items, household organization, chores, family coordination, and connected UA context."
     >
 
     <link
@@ -441,9 +441,9 @@
             color: var(--hf-green);
         }
 
-        /* CONNECTION */
+        /* UA CONTEXT */
 
-        .connection-panel {
+        .context-panel {
             padding: 48px;
             border-radius: 28px;
             border: 1px solid #2a2a2a;
@@ -455,39 +455,39 @@
                 );
         }
 
-        .connection-panel h2 {
+        .context-panel h2 {
             margin: 10px 0 16px;
             font-size: clamp(2.3rem, 5vw, 4rem);
             letter-spacing: -0.05em;
             line-height: 1;
         }
 
-        .connection-panel p {
-            max-width: 780px;
+        .context-panel p {
+            max-width: 800px;
             margin: 0;
             color: var(--ua-text);
         }
 
-        .connection-grid {
+        .context-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 18px;
             margin-top: 34px;
         }
 
-        .connection-card {
+        .context-card {
             padding: 24px;
             border-radius: 18px;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.06);
         }
 
-        .connection-card strong {
+        .context-card strong {
             display: block;
             margin-bottom: 8px;
         }
 
-        .connection-card p {
+        .context-card p {
             color: var(--ua-muted);
             font-size: 0.95rem;
         }
@@ -655,7 +655,7 @@
             .purpose-grid,
             .feature-grid,
             .family-grid,
-            .connection-grid {
+            .context-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -710,7 +710,7 @@
                 padding: 72px 0;
             }
 
-            .connection-panel,
+            .context-panel,
             .ua-panel {
                 padding: 32px 24px;
             }
@@ -824,7 +824,7 @@
                     HomeForge is being built as the household command center
                     inside Unfazed Action. It brings inventory, shopping,
                     expiration awareness, chores, household members, and
-                    future meal connections together in one place.
+                    shared household context together in one place.
                 </p>
 
                 <div class="hero-actions">
@@ -941,8 +941,9 @@
                 <div class="purpose-card">
                     <h3>Reduce wasted effort</h3>
                     <p>
-                        Expiration awareness, room organization, and connected
-                        meal planning can help use what is already in the home.
+                        Expiration awareness, room organization, and shared UA
+                        context can help the household use what it already has
+                        more intelligently.
                     </p>
                 </div>
 
@@ -1104,22 +1105,24 @@
 
                     <div>
                         <div class="feature-icon">
-                            MS
+                            UA
                         </div>
 
                         <h3>
-                            Meal Suggestions
+                            Connected UA Context
                         </h3>
 
                         <p>
-                            Over time, HomeForge inventory can connect with
-                            MealForge to help suggest meals based on what the
-                            household already has available.
+                            HomeForge contributes relevant household context to
+                            the wider Unfazed Action ecosystem so other UA apps
+                            can use that information, with the user’s
+                            permission, when it makes their own features more
+                            useful.
                         </p>
                     </div>
 
-                    <div class="feature-status">
-                        Future Connection
+                    <div class="feature-status current">
+                        UA Ecosystem
                     </div>
 
                 </article>
@@ -1135,54 +1138,58 @@
 
         <div class="container">
 
-            <div class="connection-panel">
+            <div class="context-panel">
 
                 <div class="eyebrow">
-                    Connected household
+                    Shared UA context
                 </div>
 
                 <h2>
-                    Inventory becomes more useful when it connects to action.
+                    The value is bigger than any one connection.
                 </h2>
 
                 <p>
-                    HomeForge is not just meant to be a digital list of items.
-                    The value comes from using household information to drive
-                    shopping, meal planning, reminders, and shared routines.
+                    HomeForge should not be thought of as sharing only with one
+                    other app. Its household context can become part of the
+                    broader UA ecosystem, allowing specialized apps to use the
+                    right information when it helps the user.
                 </p>
 
-                <div class="connection-grid">
+                <div class="context-grid">
 
-                    <div class="connection-card">
+                    <div class="context-card">
                         <strong>
-                            Inventory → Shopping
+                            Household context
                         </strong>
 
                         <p>
-                            Low quantities can become shopping needs without
-                            starting another list from scratch.
+                            Inventory, quantities, rooms, household needs, and
+                            other relevant information can contribute to a more
+                            complete UA picture.
                         </p>
                     </div>
 
-                    <div class="connection-card">
+                    <div class="context-card">
                         <strong>
-                            Inventory → Meals
+                            Specialized apps stay specialized
                         </strong>
 
                         <p>
-                            Available food can eventually support MealForge
-                            planning and suggestions.
+                            HomeForge manages the home. MealForge handles meal
+                            planning. Other UA apps keep their own purpose while
+                            using shared context where it adds value.
                         </p>
                     </div>
 
-                    <div class="connection-card">
+                    <div class="context-card">
                         <strong>
-                            Home → Family
+                            User-controlled connections
                         </strong>
 
                         <p>
-                            Shared household information can be visible to the
-                            right family members through UA Account roles.
+                            Shared information should support the user’s goals
+                            without erasing boundaries between apps or making
+                            every app responsible for everything.
                         </p>
                     </div>
 
@@ -1267,14 +1274,15 @@
                     </div>
 
                     <h2>
-                        HomeForge is one part of the UA household experience.
+                        HomeForge is one part of a shared UA life system.
                     </h2>
 
                     <p>
                         UA Account remains the source of identity, family
                         membership, invitations, managed profiles, and UA+
-                        status. HomeForge can use that shared foundation while
-                        staying focused on the home itself.
+                        status. HomeForge contributes household context to that
+                        larger ecosystem while staying focused on home
+                        management itself.
                     </p>
 
                 </div>
@@ -1315,7 +1323,8 @@
                 <p>
                     HomeForge is being designed to turn everyday household
                     information into something useful, shared, and easier to
-                    act on.
+                    act on while contributing to the wider Unfazed Action
+                    ecosystem.
                 </p>
 
                 <a
