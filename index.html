@@ -2,13 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Unfazed Action</title>
 
     <meta
         name="description"
         content="Unfazed Action is an ecosystem of tools designed to help people connect with their lives and become the best version of themselves."
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/assets/ua-logo.png"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="/assets/ua-logo.png"
     >
 
     <style>
@@ -21,7 +36,7 @@
             --ua-text: #dddddd;
             --ua-muted: #929292;
             --ua-border: #292929;
-            --ua-red: #e50914;
+            --ua-red: #E50914;
             --ua-red-dark: #b90710;
             --max-width: 1180px;
         }
@@ -53,7 +68,11 @@
         }
 
         .container {
-            width: min(var(--max-width), calc(100% - 40px));
+            width: min(
+                var(--max-width),
+                calc(100% - 40px)
+            );
+
             margin: 0 auto;
         }
 
@@ -75,7 +94,14 @@
 
         .section-title {
             margin: 12px 0 18px;
-            font-size: clamp(2.1rem, 5vw, 3.6rem);
+
+            font-size:
+                clamp(
+                    2.1rem,
+                    5vw,
+                    3.6rem
+                );
+
             line-height: 1.05;
             letter-spacing: -0.04em;
         }
@@ -93,61 +119,55 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(5, 5, 5, 0.92);
+
+            background:
+                rgba(
+                    5,
+                    5,
+                    5,
+                    0.92
+                );
+
             backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+            border-bottom:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
         }
 
         .nav {
             min-height: 76px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 24px;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 13px;
+
+            gap: 12px;
+
             font-weight: 900;
             letter-spacing: -0.03em;
             font-size: 1.2rem;
         }
 
-        .brand-mark {
-            position: relative;
-            width: 42px;
-            height: 32px;
+        .brand-logo {
+            width: 54px;
+            height: 40px;
+
+            object-fit: contain;
+
             flex: 0 0 auto;
-        }
-
-        .brand-mark::before,
-        .brand-mark::after {
-            content: "";
-            position: absolute;
-            background: white;
-            border-radius: 2px;
-        }
-
-        .brand-mark::before {
-            width: 8px;
-            height: 25px;
-            left: 4px;
-            top: 2px;
-            box-shadow:
-                16px 0 0 white,
-                8px 18px 0 white;
-        }
-
-        .brand-mark::after {
-            width: 7px;
-            height: 39px;
-            background: var(--ua-red);
-            left: 18px;
-            top: -3px;
-            transform: rotate(36deg);
-            transform-origin: center;
         }
 
         nav {
@@ -176,11 +196,17 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+
             min-height: 46px;
+
             padding: 0 22px;
+
             border-radius: 999px;
+
             font-weight: 800;
+
             transition: 0.2s ease;
+
             border: 1px solid transparent;
         }
 
@@ -209,51 +235,101 @@
 
         .hero {
             min-height: 760px;
+
             display: flex;
             align-items: center;
+
             position: relative;
+
             overflow: hidden;
-            border-bottom: 1px solid #151515;
+
+            border-bottom:
+                1px solid #151515;
         }
 
         .hero::before {
             content: "";
+
             position: absolute;
+
             width: 680px;
             height: 680px;
+
             right: -220px;
             top: 50%;
-            transform: translateY(-50%);
+
+            transform:
+                translateY(-50%);
+
             border-radius: 50%;
+
             background:
                 radial-gradient(
                     circle,
-                    rgba(229, 9, 20, 0.18) 0%,
-                    rgba(229, 9, 20, 0.06) 35%,
+                    rgba(
+                        229,
+                        9,
+                        20,
+                        0.18
+                    ) 0%,
+                    rgba(
+                        229,
+                        9,
+                        20,
+                        0.06
+                    ) 35%,
                     transparent 68%
                 );
+
             pointer-events: none;
         }
 
         .hero-inner {
             position: relative;
             z-index: 1;
+
             max-width: 900px;
+
             padding: 110px 0;
+        }
+
+        .hero-logo {
+            width:
+                clamp(
+                    110px,
+                    16vw,
+                    165px
+                );
+
+            height: auto;
+
+            display: block;
+
+            margin-bottom: 28px;
         }
 
         .hero-accent {
             width: 82px;
             height: 6px;
+
             margin-bottom: 30px;
+
             background: var(--ua-red);
         }
 
         .hero h1 {
             margin: 0;
-            font-size: clamp(3.4rem, 9vw, 7rem);
+
+            font-size:
+                clamp(
+                    3.4rem,
+                    9vw,
+                    7rem
+                );
+
             line-height: 0.92;
             letter-spacing: -0.065em;
+
             max-width: 920px;
         }
 
@@ -264,23 +340,37 @@
 
         .hero-mission {
             max-width: 790px;
+
             margin: 34px 0 0;
+
             color: var(--ua-text);
-            font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+
+            font-size:
+                clamp(
+                    1.2rem,
+                    2.4vw,
+                    1.55rem
+                );
+
             line-height: 1.55;
         }
 
         .hero-supporting {
             margin-top: 20px;
+
             color: var(--ua-muted);
+
             font-size: 1.02rem;
+
             max-width: 670px;
         }
 
         .hero-actions {
             display: flex;
             flex-wrap: wrap;
+
             gap: 14px;
+
             margin-top: 38px;
         }
 
@@ -288,8 +378,13 @@
 
         .about-grid {
             display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
+
+            grid-template-columns:
+                1.05fr
+                0.95fr;
+
             gap: 54px;
+
             align-items: center;
         }
 
@@ -300,14 +395,21 @@
 
         .principle {
             padding: 24px;
+
             background: var(--ua-card);
-            border: 1px solid var(--ua-border);
+
+            border:
+                1px solid
+                var(--ua-border);
+
             border-radius: 18px;
         }
 
         .principle strong {
             display: block;
+
             margin-bottom: 7px;
+
             font-size: 1.08rem;
         }
 
@@ -320,37 +422,59 @@
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
             gap: 18px;
+
             margin-top: 48px;
         }
 
         .app-card {
             min-height: 260px;
+
             padding: 26px;
+
             border-radius: 20px;
-            border: 1px solid var(--ua-border);
+
+            border:
+                1px solid
+                var(--ua-border);
+
             background: var(--ua-card);
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
             transition: 0.22s ease;
         }
 
         .app-card:hover {
             background: var(--ua-card-hover);
-            transform: translateY(-4px);
+
+            transform:
+                translateY(-4px);
+
             border-color: #3d3d3d;
         }
 
         .app-icon {
             width: 48px;
             height: 48px;
+
             border-radius: 14px;
+
             background: var(--ua-red);
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-weight: 900;
             font-size: 1.25rem;
             letter-spacing: -0.03em;
@@ -368,9 +492,13 @@
 
         .app-status {
             margin-top: 26px;
+
             font-size: 0.83rem;
+
             color: #b7b7b7;
+
             font-weight: 800;
+
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
@@ -383,8 +511,12 @@
 
         .plus-wrap {
             padding: 48px;
+
             border-radius: 26px;
-            border: 1px solid #2a2a2a;
+
+            border:
+                1px solid #2a2a2a;
+
             background:
                 linear-gradient(
                     130deg,
@@ -392,37 +524,59 @@
                     #111111 56%,
                     #19080a 100%
                 );
+
             position: relative;
             overflow: hidden;
         }
 
         .plus-wrap::after {
             content: "+";
+
             position: absolute;
+
             right: 34px;
             top: -40px;
+
             font-size: 14rem;
             line-height: 1;
+
             font-weight: 900;
-            color: rgba(229, 9, 20, 0.08);
+
+            color:
+                rgba(
+                    229,
+                    9,
+                    20,
+                    0.08
+                );
         }
 
         .plus-content {
             position: relative;
             z-index: 1;
+
             max-width: 720px;
         }
 
         .plus-content h2 {
             margin: 10px 0 18px;
-            font-size: clamp(2.6rem, 6vw, 4.8rem);
+
+            font-size:
+                clamp(
+                    2.6rem,
+                    6vw,
+                    4.8rem
+                );
+
             letter-spacing: -0.055em;
             line-height: 1;
         }
 
         .plus-content p {
             margin: 0 0 28px;
+
             color: var(--ua-text);
+
             font-size: 1.08rem;
         }
 
@@ -430,15 +584,25 @@
 
         .family-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
             gap: 26px;
+
             margin-top: 46px;
         }
 
         .family-card {
             padding: 32px;
+
             border-radius: 20px;
-            border: 1px solid var(--ua-border);
+
+            border:
+                1px solid
+                var(--ua-border);
+
             background: #0d0d0d;
         }
 
@@ -458,22 +622,38 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 34px;
+
             padding: 44px;
+
             border-radius: 24px;
-            border: 1px solid var(--ua-border);
+
+            border:
+                1px solid
+                var(--ua-border);
+
             background: var(--ua-card);
         }
 
         .account-panel h2 {
             margin: 0 0 12px;
-            font-size: clamp(2rem, 5vw, 3.1rem);
+
+            font-size:
+                clamp(
+                    2rem,
+                    5vw,
+                    3.1rem
+                );
+
             letter-spacing: -0.04em;
         }
 
         .account-panel p {
             max-width: 690px;
+
             margin: 0;
+
             color: var(--ua-text);
         }
 
@@ -481,15 +661,34 @@
 
         footer {
             padding: 46px 0;
-            border-top: 1px solid #1d1d1d;
+
+            border-top:
+                1px solid #1d1d1d;
+
             background: #030303;
         }
 
         .footer-inner {
             display: flex;
+
             justify-content: space-between;
+
             gap: 30px;
+
             align-items: center;
+        }
+
+        .footer-brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 48px;
+            height: 36px;
+
+            object-fit: contain;
         }
 
         .footer-brand {
@@ -499,7 +698,9 @@
 
         .footer-copy {
             margin-top: 5px;
+
             color: #717171;
+
             font-size: 0.9rem;
         }
 
@@ -520,7 +721,10 @@
 
         /* RESPONSIVE */
 
-        @media (max-width: 980px) {
+        @media (
+            max-width: 980px
+        ) {
+
             nav {
                 display: none;
             }
@@ -531,7 +735,11 @@
             }
 
             .apps-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(
+                        2,
+                        1fr
+                    );
             }
 
             .account-panel {
@@ -540,9 +748,16 @@
             }
         }
 
-        @media (max-width: 680px) {
+        @media (
+            max-width: 680px
+        ) {
+
             .container {
-                width: min(100% - 28px, var(--max-width));
+                width:
+                    min(
+                        100% - 28px,
+                        var(--max-width)
+                    );
             }
 
             .section {
@@ -555,21 +770,25 @@
 
             .brand {
                 font-size: 1rem;
+                gap: 8px;
             }
 
-            .brand-mark {
-                transform: scale(0.88);
-                transform-origin: left center;
-                margin-right: -4px;
+            .brand-logo {
+                width: 46px;
+                height: 34px;
             }
 
-            .nav-actions .button-secondary {
+            .nav-actions
+            .button-secondary {
                 display: none;
             }
 
-            .nav-actions .button {
+            .nav-actions
+            .button {
                 min-height: 42px;
+
                 padding: 0 17px;
+
                 font-size: 0.9rem;
             }
 
@@ -578,11 +797,22 @@
             }
 
             .hero-inner {
-                padding: 90px 0 82px;
+                padding:
+                    90px 0
+                    82px;
+            }
+
+            .hero-logo {
+                width: 110px;
             }
 
             .hero h1 {
-                font-size: clamp(3rem, 17vw, 5rem);
+                font-size:
+                    clamp(
+                        3rem,
+                        17vw,
+                        5rem
+                    );
             }
 
             .hero-mission {
@@ -593,7 +823,8 @@
                 flex-direction: column;
             }
 
-            .hero-actions .button {
+            .hero-actions
+            .button {
                 width: 100%;
             }
 
@@ -620,35 +851,87 @@
 <body>
 
 <header>
+
     <div class="container nav">
 
-        <a class="brand" href="#">
-            <div class="brand-mark" aria-hidden="true"></div>
-            <span>UNFAZED ACTION</span>
+        <a
+            class="brand"
+            href="/"
+        >
+
+            <img
+                src="/assets/ua-logo.png"
+                alt="Unfazed Action logo"
+                class="brand-logo"
+            >
+
+            <span>
+                UNFAZED ACTION
+            </span>
+
         </a>
 
         <nav>
-            <a href="#about">About</a>
-            <a href="#apps">Apps</a>
-            <a href="#ua-plus">UA+</a>
-            <a href="#family">Family</a>
-            <a href="#support">Support</a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#apps">
+                Apps
+            </a>
+
+            <a href="#ua-plus">
+                UA+
+            </a>
+
+            <a href="#family">
+                Family
+            </a>
+
+            <a href="#support">
+                Support
+            </a>
+
         </nav>
 
         <div class="nav-actions">
-            <a class="button button-secondary" href="#account">Sign In</a>
-            <a class="button button-primary" href="#apps">Explore UA</a>
+
+            <a
+                class="button button-secondary"
+                href="#account"
+            >
+                Sign In
+            </a>
+
+            <a
+                class="button button-primary"
+                href="#apps"
+            >
+                Explore UA
+            </a>
+
         </div>
 
     </div>
+
 </header>
 
 
 <main>
 
+
     <section class="hero">
+
         <div class="container">
+
             <div class="hero-inner">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action"
+                    class="hero-logo"
+                >
 
                 <div class="hero-accent"></div>
 
@@ -657,82 +940,146 @@
                 </div>
 
                 <h1>
+
                     BUILD YOUR LIFE.
-                    <span>STAY UNFAZED.</span>
+
+                    <span>
+                        STAY UNFAZED.
+                    </span>
+
                 </h1>
 
                 <p class="hero-mission">
-                    Connect people with their lives so they can truly be the
-                    best version of themselves.
+
+                    Connect people with their lives so they
+                    can truly be the best version of
+                    themselves.
+
                 </p>
 
                 <p class="hero-supporting">
-                    Unfazed Action brings the tools you use to train, organize,
-                    grow, prepare, and manage your life together under one
+
+                    Unfazed Action brings the tools you use
+                    to train, organize, grow, prepare, and
+                    manage your life together under one
                     connected ecosystem.
+
                 </p>
 
                 <div class="hero-actions">
-                    <a class="button button-primary" href="#apps">
+
+                    <a
+                        class="button button-primary"
+                        href="#apps"
+                    >
                         Explore the Ecosystem
                     </a>
 
-                    <a class="button button-secondary" href="#about">
+                    <a
+                        class="button button-secondary"
+                        href="#about"
+                    >
                         What is Unfazed Action?
                     </a>
+
                 </div>
 
             </div>
+
         </div>
+
     </section>
 
 
-    <section class="section" id="about">
+    <section
+        class="section"
+        id="about"
+    >
+
         <div class="container">
 
             <div class="about-grid">
 
                 <div>
-                    <div class="eyebrow">The bigger picture</div>
+
+                    <div class="eyebrow">
+                        The bigger picture
+                    </div>
 
                     <h2 class="section-title">
-                        Life is connected.<br>
+
+                        Life is connected.
+                        <br>
+
                         Your tools should be too.
+
                     </h2>
 
                     <p class="section-copy">
-                        Unfazed Action is being built as a connected ecosystem
-                        of practical tools designed around real life. Instead
-                        of isolated apps that know nothing about one another,
-                        UA is designed around one account, one household, and
-                        one person moving toward a better life.
+
+                        Unfazed Action is being built as a
+                        connected ecosystem of practical
+                        tools designed around real life.
+
+                        Instead of isolated apps that know
+                        nothing about one another, UA is
+                        designed around one account, one
+                        household, and one person moving
+                        toward a better life.
+
                     </p>
+
                 </div>
 
                 <div class="principles">
 
                     <div class="principle">
-                        <strong>One UA Account</strong>
+
+                        <strong>
+                            One UA Account
+                        </strong>
+
                         <p>
-                            One identity designed to connect you across the
-                            Unfazed Action ecosystem.
+
+                            One identity designed to connect
+                            you across the Unfazed Action
+                            ecosystem.
+
                         </p>
+
                     </div>
 
                     <div class="principle">
-                        <strong>Tools with a purpose</strong>
+
+                        <strong>
+                            Tools with a purpose
+                        </strong>
+
                         <p>
-                            Every UA app should solve a meaningful problem
-                            without adding unnecessary complexity.
+
+                            Every UA app should solve a
+                            meaningful problem without adding
+                            unnecessary complexity.
+
                         </p>
+
                     </div>
 
                     <div class="principle">
-                        <strong>Built around your life</strong>
+
+                        <strong>
+                            Built around your life
+                        </strong>
+
                         <p>
-                            Fitness, home, food, habits, finances, and future
-                            UA tools can work as parts of one larger system.
+
+                            Fitness, home, food, habits,
+                            finances, and future UA tools can
+                            work as parts of one larger
+                            system.
+
                         </p>
+
                     </div>
 
                 </div>
@@ -740,140 +1087,226 @@
             </div>
 
         </div>
+
     </section>
 
 
-    <section class="section section-dark" id="apps">
+    <section
+        class="section section-dark"
+        id="apps"
+    >
+
         <div class="container">
 
-            <div class="eyebrow">UA Apps</div>
+            <div class="eyebrow">
+                UA Apps
+            </div>
 
             <h2 class="section-title">
-                Different tools.<br>
+
+                Different tools.
+                <br>
+
                 One ecosystem.
+
             </h2>
 
             <p class="section-copy">
-                Each Unfazed Action app focuses on one part of life while
-                sharing the larger UA vision.
+
+                Each Unfazed Action app focuses on one part
+                of life while sharing the larger UA vision.
+
             </p>
+
 
             <div class="apps-grid">
 
-                <article class="app-card">
-                    <div>
-                        <div class="app-icon">PF</div>
 
-                        <h3>PaceForge</h3>
+                <article class="app-card">
+
+                    <div>
+
+                        <div class="app-icon">
+                            PF
+                        </div>
+
+                        <h3>
+                            PaceForge
+                        </h3>
 
                         <p>
-                            Running tools designed to make every step have a
-                            purpose.
+
+                            Running tools designed to make
+                            every step have a purpose.
+
                         </p>
+
                     </div>
 
                     <div class="app-status live">
                         In Development
                     </div>
+
                 </article>
 
 
                 <article class="app-card">
-                    <div>
-                        <div class="app-icon">HF</div>
 
-                        <h3>HomeForge</h3>
+                    <div>
+
+                        <div class="app-icon">
+                            HF
+                        </div>
+
+                        <h3>
+                            HomeForge
+                        </h3>
 
                         <p>
-                            Household inventory, organization, shopping, and
+
+                            Household inventory,
+                            organization, shopping, and
                             smarter home management.
+
                         </p>
+
                     </div>
 
                     <div class="app-status">
                         Planned
                     </div>
+
                 </article>
 
 
                 <article class="app-card">
-                    <div>
-                        <div class="app-icon">MF</div>
 
-                        <h3>MealForge</h3>
+                    <div>
+
+                        <div class="app-icon">
+                            MF
+                        </div>
+
+                        <h3>
+                            MealForge
+                        </h3>
 
                         <p>
-                            Meal planning and preparation designed around the
-                            people actually living in your home.
+
+                            Meal planning and preparation
+                            designed around the people
+                            actually living in your home.
+
                         </p>
+
                     </div>
 
                     <div class="app-status">
                         Planned
                     </div>
+
                 </article>
 
 
                 <article class="app-card">
-                    <div>
-                        <div class="app-icon">HB</div>
 
-                        <h3>HabitForge</h3>
+                    <div>
+
+                        <div class="app-icon">
+                            HB
+                        </div>
+
+                        <h3>
+                            HabitForge
+                        </h3>
 
                         <p>
-                            Build consistency through meaningful habits,
-                            routines, and everyday action.
+
+                            Build consistency through
+                            meaningful habits, routines,
+                            and everyday action.
+
                         </p>
+
                     </div>
 
                     <div class="app-status">
                         Planned
                     </div>
+
                 </article>
 
 
                 <article class="app-card">
-                    <div>
-                        <div class="app-icon">LF</div>
 
-                        <h3>LiftForge</h3>
+                    <div>
+
+                        <div class="app-icon">
+                            LF
+                        </div>
+
+                        <h3>
+                            LiftForge
+                        </h3>
 
                         <p>
-                            Strength training tools designed around progress,
-                            consistency, and purpose.
+
+                            Strength training tools designed
+                            around progress, consistency,
+                            and purpose.
+
                         </p>
+
                     </div>
 
                     <div class="app-status">
                         Planned
                     </div>
+
                 </article>
 
 
                 <article class="app-card">
-                    <div>
-                        <div class="app-icon">BF</div>
 
-                        <h3>BudgetForge</h3>
+                    <div>
+
+                        <div class="app-icon">
+                            BF
+                        </div>
+
+                        <h3>
+                            BudgetForge
+                        </h3>
 
                         <p>
-                            Understand your money, build a plan, and make
-                            financial decisions with greater clarity.
+
+                            Understand your money, build a
+                            plan, and make financial
+                            decisions with greater clarity.
+
                         </p>
+
                     </div>
 
                     <div class="app-status">
                         Planned
                     </div>
+
                 </article>
+
 
             </div>
 
         </div>
+
     </section>
 
 
-    <section class="section" id="ua-plus">
+    <section
+        class="section"
+        id="ua-plus"
+    >
+
         <div class="container">
 
             <div class="plus-wrap">
@@ -889,13 +1322,19 @@
                     </h2>
 
                     <p>
-                        UA+ is being designed as the premium layer across
-                        Unfazed Action—unlocking expanded features while
-                        keeping one connected membership across supported
-                        UA apps.
+
+                        UA+ is being designed as the premium
+                        layer across Unfazed Action,
+                        unlocking expanded features while
+                        keeping one connected membership
+                        across supported UA apps.
+
                     </p>
 
-                    <a class="button button-primary" href="#account">
+                    <a
+                        class="button button-primary"
+                        href="#account"
+                    >
                         Learn About UA+
                     </a>
 
@@ -904,10 +1343,15 @@
             </div>
 
         </div>
+
     </section>
 
 
-    <section class="section section-dark" id="family">
+    <section
+        class="section section-dark"
+        id="family"
+    >
+
         <div class="container">
 
             <div class="eyebrow">
@@ -915,65 +1359,112 @@
             </div>
 
             <h2 class="section-title">
-                Built for individuals.<br>
+
+                Built for individuals.
+                <br>
+
                 Designed to grow with families.
+
             </h2>
 
             <p class="section-copy">
-                UA Family is being built around shared households while still
-                allowing each person to have their own experience.
+
+                UA Family is being built around shared
+                households while still allowing each person
+                to have their own experience.
+
             </p>
+
 
             <div class="family-grid">
 
-                <div class="family-card">
-                    <h3>Family Accounts</h3>
-
-                    <p>
-                        Bring adults and managed child profiles together under
-                        one UA family structure.
-                    </p>
-                </div>
 
                 <div class="family-card">
-                    <h3>Shared UA+</h3>
+
+                    <h3>
+                        Family Accounts
+                    </h3>
 
                     <p>
-                        Family-level access can allow eligible members to share
-                        UA+ benefits across supported apps.
+
+                        Bring adults and managed child
+                        profiles together under one UA
+                        family structure.
+
                     </p>
+
                 </div>
+
 
                 <div class="family-card">
-                    <h3>Invitations</h3>
+
+                    <h3>
+                        Shared UA+
+                    </h3>
 
                     <p>
-                        Invite family members into an existing household and
-                        manage participation in one place.
+
+                        Family-level access can allow
+                        eligible members to share UA+
+                        benefits across supported apps.
+
                     </p>
+
                 </div>
+
 
                 <div class="family-card">
-                    <h3>Connected Experiences</h3>
+
+                    <h3>
+                        Invitations
+                    </h3>
 
                     <p>
-                        Over time, UA apps can work together around the needs
-                        of the individual and the household.
+
+                        Invite family members into an
+                        existing household and manage
+                        participation in one place.
+
                     </p>
+
                 </div>
+
+
+                <div class="family-card">
+
+                    <h3>
+                        Connected Experiences
+                    </h3>
+
+                    <p>
+
+                        Over time, UA apps can work together
+                        around the needs of the individual
+                        and the household.
+
+                    </p>
+
+                </div>
+
 
             </div>
 
         </div>
+
     </section>
 
 
-    <section class="section" id="account">
+    <section
+        class="section"
+        id="account"
+    >
+
         <div class="container">
 
             <div class="account-panel">
 
                 <div>
+
                     <div class="eyebrow">
                         UA Account
                     </div>
@@ -983,26 +1474,42 @@
                     </h2>
 
                     <p>
-                        UA Accounts already power the foundation of the
-                        ecosystem. The website will become the central place
-                        for profiles, subscriptions, family management,
-                        connected apps, and account settings.
+
+                        UA Accounts already power the
+                        foundation of the ecosystem.
+
+                        The website will become the central
+                        place for profiles, subscriptions,
+                        family management, connected apps,
+                        and account settings.
+
                     </p>
+
                 </div>
 
                 <div>
-                    <a class="button button-primary" href="#">
+
+                    <a
+                        class="button button-primary"
+                        href="#"
+                    >
                         UA Account Coming Soon
                     </a>
+
                 </div>
 
             </div>
 
         </div>
+
     </section>
 
 
-    <section class="section section-dark" id="support">
+    <section
+        class="section section-dark"
+        id="support"
+    >
+
         <div class="container">
 
             <div class="eyebrow">
@@ -1014,31 +1521,54 @@
             </h2>
 
             <p class="section-copy">
-                As Unfazed Action grows, this site will become the central
-                support hub for UA Accounts, apps, subscriptions, families,
+
+                As Unfazed Action grows, this site will
+                become the central support hub for UA
+                Accounts, apps, subscriptions, families,
                 privacy information, and customer help.
+
             </p>
 
         </div>
+
     </section>
+
 
 </main>
 
 
 <footer>
+
     <div class="container footer-inner">
 
         <div>
-            <div class="footer-brand">
-                UNFAZED ACTION
+
+            <div class="footer-brand-wrap">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                    class="footer-logo"
+                >
+
+                <div class="footer-brand">
+                    UNFAZED ACTION
+                </div>
+
             </div>
 
             <div class="footer-copy">
-                © 2026 Unfazed Action. All rights reserved.
+
+                © 2026 Unfazed Action.
+                All rights reserved.
+
             </div>
+
         </div>
 
+
         <div class="footer-links">
+
             <a href="/privacy/perfect-timing/">
                 Perfect Timing Privacy
             </a>
@@ -1054,10 +1584,13 @@
             <a href="#">
                 Terms
             </a>
+
         </div>
 
     </div>
+
 </footer>
+
 
 </body>
 </html>
