@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>UA Apps | Unfazed Action</title>
+
+    <meta
+        name="description"
+        content="Explore the Unfazed Action ecosystem, including PaceForge, HomeForge, MealForge, HabitForge, LiftForge, BudgetForge, MindForge, and future UA apps."
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/assets/ua-logo.png"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="/assets/ua-logo.png"
+    >
+
+    <style>
+        :root {
+            --ua-black: #050505;
+            --ua-dark: #111111;
+            --ua-card: #171717;
+            --ua-card-hover: #1d1d1d;
+
+            --ua-white: #ffffff;
+            --ua-text: #dddddd;
+            --ua-muted: #929292;
+
+            --ua-border: #292929;
+
+            --ua-red: #E50914;
+            --ua-red-hover: #ff111d;
+
+            --max-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background: var(--ua-black);
+
+            color: var(--ua-white);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width:
+                min(
+                    var(--max-width),
+                    calc(100% - 40px)
+                );
+
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            color: var(--ua-red);
+
+            font-size: 0.82rem;
+
+            font-weight: 800;
+
+            letter-spacing: 0.16em;
+
+            text-transform: uppercase;
+        }
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 46px;
+
+            padding: 0 22px;
+
+            border-radius: 999px;
+
+            border: 1px solid transparent;
+
+            font-weight: 800;
+
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            background: var(--ua-red);
+
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: var(--ua-red-hover);
+
+            transform: translateY(-1px);
+        }
+
+        .button-secondary {
+            background: #111111;
+
+            border-color: #383838;
+
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #191919;
+
+            border-color: #505050;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            background:
+                rgba(
+                    5,
+                    5,
+                    5,
+                    0.94
+                );
+
+            backdrop-filter: blur(14px);
+
+            border-bottom:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+        }
+
+        .nav {
+            min-height: 76px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-weight: 900;
+
+            letter-spacing: -0.03em;
+
+            font-size: 1.2rem;
+        }
+
+        .brand-logo {
+            width: 54px;
+
+            height: 40px;
+
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+        }
+
+        nav a {
+            color: #cfcfcf;
+
+            font-size: 0.96rem;
+
+            transition: 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        nav a.active {
+            font-weight: 800;
+        }
+
+        .nav-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 560px;
+
+            display: flex;
+
+            align-items: center;
+
+            position: relative;
+
+            overflow: hidden;
+
+            border-bottom: 1px solid #171717;
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 720px;
+
+            height: 720px;
+
+            right: -260px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(
+                        229,
+                        9,
+                        20,
+                        0.16
+                    ) 0%,
+                    rgba(
+                        229,
+                        9,
+                        20,
+                        0.05
+                    ) 34%,
+                    transparent 68%
+                );
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 900px;
+
+            padding: 110px 0;
+        }
+
+        .hero-accent {
+            width: 82px;
+
+            height: 6px;
+
+            margin-bottom: 30px;
+
+            background: var(--ua-red);
+        }
+
+        .hero h1 {
+            margin: 10px 0 24px;
+
+            font-size:
+                clamp(
+                    3.4rem,
+                    8vw,
+                    6.6rem
+                );
+
+            line-height: 0.94;
+
+            letter-spacing: -0.06em;
+        }
+
+        .hero h1 span {
+            color: var(--ua-red);
+        }
+
+        .hero-copy {
+            max-width: 760px;
+
+            margin: 0;
+
+            color: var(--ua-text);
+
+            font-size:
+                clamp(
+                    1.1rem,
+                    2vw,
+                    1.35rem
+                );
+        }
+
+        /* ECOSYSTEM INTRO */
+
+        .intro {
+            padding: 90px 0 50px;
+        }
+
+        .intro-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.1fr
+                0.9fr;
+
+            gap: 60px;
+
+            align-items: center;
+        }
+
+        .intro h2 {
+            margin: 10px 0 20px;
+
+            font-size:
+                clamp(
+                    2.2rem,
+                    5vw,
+                    3.8rem
+                );
+
+            line-height: 1.05;
+
+            letter-spacing: -0.045em;
+        }
+
+        .intro p {
+            margin: 0;
+
+            color: var(--ua-text);
+
+            font-size: 1.08rem;
+        }
+
+        .ecosystem-note {
+            padding: 28px;
+
+            border-radius: 20px;
+
+            border:
+                1px solid
+                var(--ua-border);
+
+            background: var(--ua-card);
+        }
+
+        .ecosystem-note strong {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 1.15rem;
+        }
+
+        .ecosystem-note p {
+            color: var(--ua-muted);
+        }
+
+        /* APP SECTIONS */
+
+        .apps-section {
+            padding: 50px 0 100px;
+        }
+
+        .section-heading {
+            margin-bottom: 34px;
+        }
+
+        .section-heading h2 {
+            margin: 10px 0 14px;
+
+            font-size:
+                clamp(
+                    2rem,
+                    4vw,
+                    3rem
+                );
+
+            letter-spacing: -0.04em;
+        }
+
+        .section-heading p {
+            max-width: 720px;
+
+            margin: 0;
+
+            color: var(--ua-muted);
+        }
+
+        .apps-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(
+                        0,
+                        1fr
+                    )
+                );
+
+            gap: 22px;
+        }
+
+        .app-card {
+            position: relative;
+
+            min-height: 390px;
+
+            padding: 32px;
+
+            border-radius: 24px;
+
+            border:
+                1px solid
+                var(--ua-border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #171717,
+                    #101010
+                );
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            overflow: hidden;
+
+            transition: 0.22s ease;
+        }
+
+        .app-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 240px;
+
+            height: 240px;
+
+            right: -90px;
+
+            top: -90px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(
+                        229,
+                        9,
+                        20,
+                        0.12
+                    ),
+                    transparent 68%
+                );
+
+            opacity: 0;
+
+            transition: 0.22s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #3a3a3a;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1c1c1c,
+                    #121212
+                );
+        }
+
+        .app-card:hover::before {
+            opacity: 1;
+        }
+
+        .app-top,
+        .app-bottom {
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .app-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            min-height: 30px;
+
+            padding: 0 12px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(
+                    229,
+                    9,
+                    20,
+                    0.12
+                );
+
+            border:
+                1px solid
+                rgba(
+                    229,
+                    9,
+                    20,
+                    0.35
+                );
+
+            color: var(--ua-red);
+
+            font-size: 0.74rem;
+
+            font-weight: 900;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+        .app-badge.future {
+            color: #bdbdbd;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
+
+            border-color: #333333;
+        }
+
+        .app-icon {
+            width: 66px;
+
+            height: 66px;
+
+            margin-top: 26px;
+
+            border-radius: 18px;
+
+            background: #0c0c0c;
+
+            border:
+                1px solid #2e2e2e;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 900;
+
+            font-size: 1.45rem;
+
+            color: white;
+        }
+
+        .app-card h3 {
+            margin: 24px 0 10px;
+
+            font-size: 2rem;
+
+            letter-spacing: -0.035em;
+        }
+
+        .app-tagline {
+            margin: 0 0 14px;
+
+            color: white;
+
+            font-weight: 700;
+        }
+
+        .app-description {
+            margin: 0;
+
+            max-width: 500px;
+
+            color: var(--ua-muted);
+        }
+
+        .app-bottom {
+            margin-top: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 16px;
+        }
+
+        .app-category {
+            color: #777777;
+
+            font-size: 0.85rem;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+        }
+
+        .app-link {
+            color: white;
+
+            font-size: 0.92rem;
+
+            font-weight: 800;
+        }
+
+        .app-link span {
+            color: var(--ua-red);
+        }
+
+        /* FUTURE */
+
+        .future-section {
+            padding: 90px 0;
+
+            background: var(--ua-dark);
+
+            border-top: 1px solid #191919;
+
+            border-bottom: 1px solid #191919;
+        }
+
+        .future-panel {
+            padding: 48px;
+
+            border-radius: 26px;
+
+            border:
+                1px solid
+                #2a2a2a;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #151515,
+                    #0d0d0d
+                );
+        }
+
+        .future-panel h2 {
+            margin: 10px 0 18px;
+
+            font-size:
+                clamp(
+                    2.3rem,
+                    5vw,
+                    4rem
+                );
+
+            line-height: 1;
+
+            letter-spacing: -0.05em;
+        }
+
+        .future-panel p {
+            max-width: 760px;
+
+            margin: 0;
+
+            color: var(--ua-text);
+
+            font-size: 1.07rem;
+        }
+
+        /* CTA */
+
+        .cta {
+            padding: 100px 0;
+        }
+
+        .cta-panel {
+            text-align: center;
+
+            padding: 70px 30px;
+
+            border-radius: 28px;
+
+            border:
+                1px solid
+                var(--ua-border);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #121212,
+                    #180607
+                );
+        }
+
+        .cta-logo {
+            width: 92px;
+
+            height: auto;
+
+            display: block;
+
+            margin:
+                0 auto
+                26px;
+        }
+
+        .cta-panel h2 {
+            margin: 8px 0 18px;
+
+            font-size:
+                clamp(
+                    2.3rem,
+                    5vw,
+                    4rem
+                );
+
+            letter-spacing: -0.05em;
+
+            line-height: 1;
+        }
+
+        .cta-panel p {
+            max-width: 680px;
+
+            margin:
+                0 auto
+                30px;
+
+            color: var(--ua-text);
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 46px 0;
+
+            background: #030303;
+
+            border-top:
+                1px solid #1d1d1d;
+        }
+
+        .footer-inner {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .footer-brand-wrap {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 48px;
+
+            height: 36px;
+
+            object-fit: contain;
+        }
+
+        .footer-brand {
+            font-weight: 800;
+        }
+
+        .footer-copy {
+            margin-top: 5px;
+
+            color: #717171;
+
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #8e8e8e;
+
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (
+            max-width: 900px
+        ) {
+
+            nav {
+                display: none;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (
+            max-width: 680px
+        ) {
+
+            .container {
+                width:
+                    min(
+                        100% - 28px,
+                        var(--max-width)
+                    );
+            }
+
+            .nav {
+                min-height: 66px;
+            }
+
+            .brand {
+                font-size: 1rem;
+
+                gap: 8px;
+            }
+
+            .brand-logo {
+                width: 46px;
+
+                height: 34px;
+            }
+
+            .nav-actions
+            .button-secondary {
+                display: none;
+            }
+
+            .nav-actions
+            .button {
+                min-height: 42px;
+
+                padding: 0 16px;
+
+                font-size: 0.88rem;
+            }
+
+            .hero-content {
+                padding: 90px 0;
+            }
+
+            .hero h1 {
+                font-size:
+                    clamp(
+                        3rem,
+                        15vw,
+                        5rem
+                    );
+            }
+
+            .intro {
+                padding: 70px 0 30px;
+            }
+
+            .apps-section {
+                padding: 40px 0 70px;
+            }
+
+            .app-card {
+                min-height: 360px;
+
+                padding: 26px;
+            }
+
+            .future-panel {
+                padding: 32px 24px;
+            }
+
+            .cta-panel {
+                padding: 52px 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="container nav">
+
+        <a
+            class="brand"
+            href="/"
+        >
+
+            <img
+                src="/assets/ua-logo.png"
+                alt="Unfazed Action logo"
+                class="brand-logo"
+            >
+
+            <span>
+                UNFAZED ACTION
+            </span>
+
+        </a>
+
+
+        <nav>
+
+            <a href="/#about">
+                About
+            </a>
+
+            <a
+                href="/apps/"
+                class="active"
+            >
+                Apps
+            </a>
+
+            <a href="/#ua-plus">
+                UA+
+            </a>
+
+            <a href="/#family">
+                Family
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+
+        </nav>
+
+
+        <div class="nav-actions">
+
+            <a
+                class="button button-secondary"
+                href="/#account"
+            >
+                Sign In
+            </a>
+
+            <a
+                class="button button-primary"
+                href="/"
+            >
+                UA Home
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <div class="hero-accent"></div>
+
+                <div class="eyebrow">
+                    Unfazed Action Ecosystem
+                </div>
+
+                <h1>
+
+                    ONE LIFE.
+                    <br>
+
+                    <span>
+                        MULTIPLE TOOLS.
+                    </span>
+
+                </h1>
+
+                <p class="hero-copy">
+
+                    Every UA app is designed to focus on a
+                    specific part of life while connecting
+                    back to one larger ecosystem.
+
+                    Train. Organize. Eat better. Build
+                    habits. Get stronger. Understand your
+                    money. Strengthen your mindset.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="intro">
+
+        <div class="container">
+
+            <div class="intro-grid">
+
+                <div>
+
+                    <div class="eyebrow">
+                        The UA approach
+                    </div>
+
+                    <h2>
+                        Specialized apps.
+                        <br>
+                        Shared purpose.
+                    </h2>
+
+                    <p>
+
+                        Unfazed Action is not being built as
+                        one giant app trying to do
+                        everything.
+
+                        Each Forge app is designed to solve
+                        its own problem well while sharing
+                        the same UA identity, account
+                        system, family structure, and
+                        broader mission.
+
+                    </p>
+
+                </div>
+
+
+                <div class="ecosystem-note">
+
+                    <strong>
+                        One UA Account
+                    </strong>
+
+                    <p>
+
+                        The long-term goal is simple: sign
+                        into Unfazed Action once and carry
+                        your UA identity across the
+                        ecosystem.
+
+                        Your apps remain specialized while
+                        your experience becomes connected.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="apps-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    Move
+                </div>
+
+                <h2>
+                    Training & performance
+                </h2>
+
+                <p>
+
+                    UA tools designed to help people move
+                    with intention, train consistently, and
+                    understand their progress.
+
+                </p>
+
+            </div>
+
+
+            <div class="apps-grid">
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge">
+                            In Development
+                        </span>
+
+                        <div class="app-icon">
+                            PF
+                        </div>
+
+                        <h3>
+                            PaceForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Every Step Has a Purpose.
+                        </p>
+
+                        <p class="app-description">
+
+                            A running platform built around
+                            purposeful training, including
+                            Pace Coach, customizable
+                            intervals, saved workouts,
+                            workout history, and future
+                            training intelligence.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Running
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/paceforge/"
+                        >
+                            Explore PaceForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Planned
+                        </span>
+
+                        <div class="app-icon">
+                            LF
+                        </div>
+
+                        <h3>
+                            LiftForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Strength with purpose.
+                        </p>
+
+                        <p class="app-description">
+
+                            Strength training tools designed
+                            around progressive improvement,
+                            workout structure, consistency,
+                            and meaningful long-term
+                            progress.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Strength
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/liftforge/"
+                        >
+                            Explore LiftForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="apps-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    Live
+                </div>
+
+                <h2>
+                    Home & food
+                </h2>
+
+                <p>
+
+                    Tools built around the systems that keep
+                    everyday life moving.
+
+                </p>
+
+            </div>
+
+
+            <div class="apps-grid">
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Planned
+                        </span>
+
+                        <div class="app-icon">
+                            HF
+                        </div>
+
+                        <h3>
+                            HomeForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Know your home.
+                        </p>
+
+                        <p class="app-description">
+
+                            Household inventory, shopping
+                            lists, low-stock tracking,
+                            expiration awareness, household
+                            organization, chores, and shared
+                            family tools.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Home
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/homeforge/"
+                        >
+                            Explore HomeForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Planned
+                        </span>
+
+                        <div class="app-icon">
+                            MF
+                        </div>
+
+                        <h3>
+                            MealForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Make food work for your life.
+                        </p>
+
+                        <p class="app-description">
+
+                            Meal planning, meal prep,
+                            recipes, household food needs,
+                            shopping support, and eventually
+                            deeper connections with
+                            HomeForge inventory.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Food
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/mealforge/"
+                        >
+                            Explore MealForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="apps-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    Grow
+                </div>
+
+                <h2>
+                    Habits & mindset
+                </h2>
+
+                <p>
+
+                    Tools designed around consistency,
+                    intentional growth, reflection, and
+                    becoming stronger over time.
+
+                </p>
+
+            </div>
+
+
+            <div class="apps-grid">
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Planned
+                        </span>
+
+                        <div class="app-icon">
+                            HB
+                        </div>
+
+                        <h3>
+                            HabitForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Build what you repeat.
+                        </p>
+
+                        <p class="app-description">
+
+                            Habit building, routines,
+                            accountability, consistency
+                            tracking, and practical systems
+                            for turning small actions into
+                            lasting change.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Habits
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/habitforge/"
+                        >
+                            Explore HabitForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Future
+                        </span>
+
+                        <div class="app-icon">
+                            MN
+                        </div>
+
+                        <h3>
+                            MindForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Strengthen the person within.
+                        </p>
+
+                        <p class="app-description">
+
+                            A future UA space focused on
+                            mindset, reflection, mental
+                            resilience, personal growth, and
+                            tools that help people better
+                            understand themselves.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Mindset
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/mindforge/"
+                        >
+                            Explore MindForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="apps-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">
+                    Manage
+                </div>
+
+                <h2>
+                    Money & life systems
+                </h2>
+
+                <p>
+
+                    Give people clearer information and
+                    practical tools for the decisions that
+                    shape everyday life.
+
+                </p>
+
+            </div>
+
+
+            <div class="apps-grid">
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Planned
+                        </span>
+
+                        <div class="app-icon">
+                            BF
+                        </div>
+
+                        <h3>
+                            BudgetForge
+                        </h3>
+
+                        <p class="app-tagline">
+                            Give every dollar a purpose.
+                        </p>
+
+                        <p class="app-description">
+
+                            A future personal finance tool
+                            focused on understanding cash
+                            flow, budgeting, debt, goals,
+                            recurring obligations, and
+                            making clearer financial
+                            decisions.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            Finance
+                        </span>
+
+                        <a
+                            class="app-link"
+                            href="/apps/budgetforge/"
+                        >
+                            Explore BudgetForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="app-card">
+
+                    <div class="app-top">
+
+                        <span class="app-badge future">
+                            Future
+                        </span>
+
+                        <div class="app-icon">
+                            +
+                        </div>
+
+                        <h3>
+                            More to come
+                        </h3>
+
+                        <p class="app-tagline">
+                            UA is designed to grow.
+                        </p>
+
+                        <p class="app-description">
+
+                            Future Unfazed Action tools can
+                            expand into new parts of life
+                            without changing the core idea:
+                            purposeful tools working within
+                            one connected ecosystem.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="app-bottom">
+
+                        <span class="app-category">
+                            UA Future
+                        </span>
+
+                        <span class="app-link">
+                            Stay Unfazed
+                            <span>→</span>
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="future-section">
+
+        <div class="container">
+
+            <div class="future-panel">
+
+                <div class="eyebrow">
+                    The long-term vision
+                </div>
+
+                <h2>
+                    Apps that understand they are part of something bigger.
+                </h2>
+
+                <p>
+
+                    The future of Unfazed Action is not just
+                    a collection of apps.
+
+                    It is an ecosystem where specialized
+                    tools can work together—with the
+                    user's permission—to provide a more
+                    complete view of their goals, routines,
+                    household, training, food, finances,
+                    and personal growth.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="cta">
+
+        <div class="container">
+
+            <div class="cta-panel">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                    class="cta-logo"
+                >
+
+                <div class="eyebrow">
+                    Unfazed Action
+                </div>
+
+                <h2>
+                    One ecosystem.
+                    <br>
+                    Built around real life.
+                </h2>
+
+                <p>
+
+                    UA is being built one tool at a time,
+                    with a single mission at the center:
+                    connect people with their lives so they
+                    can truly be the best version of
+                    themselves.
+
+                </p>
+
+                <a
+                    class="button button-primary"
+                    href="/"
+                >
+                    Return to UA Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+
+            <div class="footer-brand-wrap">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                    class="footer-logo"
+                >
+
+                <div class="footer-brand">
+                    UNFAZED ACTION
+                </div>
+
+            </div>
+
+            <div class="footer-copy">
+
+                © 2026 Unfazed Action.
+                All rights reserved.
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/privacy/perfect-timing/">
+                Perfect Timing Privacy
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+
+            <a href="/#account">
+                UA Account
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
