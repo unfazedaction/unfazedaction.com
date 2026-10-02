@@ -201,39 +201,114 @@
             position: relative;
             overflow: hidden;
             border-bottom: 1px solid #151515;
+            isolation: isolate;
         }
 
         .hero::before {
             content: "";
             position: absolute;
-            width: 680px;
-            height: 680px;
-            right: -220px;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(5,5,5,0.96) 0%, rgba(5,5,5,0.86) 40%, rgba(5,5,5,0.68) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-graphic {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            right: -160px;
             top: 50%;
+            width: 760px;
+            height: 760px;
             transform: translateY(-50%);
             border-radius: 50%;
             background:
                 radial-gradient(
                     circle,
-                    rgba(229, 9, 20, 0.18) 0%,
-                    rgba(229, 9, 20, 0.06) 35%,
-                    transparent 68%
+                    rgba(229, 9, 20, 0.24) 0%,
+                    rgba(229, 9, 20, 0.1) 34%,
+                    rgba(229, 9, 20, 0.02) 56%,
+                    transparent 74%
                 );
-            pointer-events: none;
+            filter: blur(8px);
         }
+
+        .hero-slash {
+            position: absolute;
+            right: 13%;
+            top: -8%;
+            width: 230px;
+            height: 128%;
+            background: linear-gradient(180deg, rgba(229, 9, 20, 0.9), rgba(185, 7, 16, 0.7));
+            transform: rotate(18deg);
+            box-shadow:
+                0 0 50px rgba(229, 9, 20, 0.18),
+                0 0 120px rgba(229, 9, 20, 0.12);
+            opacity: 0.22;
+        }
+
+        .hero-grid-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 88px 88px;
+            mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.25) 44%, rgba(0,0,0,0.95) 66%, transparent 100%);
+            opacity: 0.12;
+        }
+
+        .hero-angle-line {
+            position: absolute;
+            width: 900px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            right: -140px;
+            transform: rotate(-21deg);
+            opacity: 0.35;
+        }
+
+        .hero-angle-line.line-1 { top: 20%; }
+        .hero-angle-line.line-2 { top: 40%; }
+        .hero-angle-line.line-3 { top: 60%; }
+        .hero-angle-line.line-4 { top: 80%; }
 
         .hero-inner {
             position: relative;
-            z-index: 1;
+            z-index: 2;
             max-width: 900px;
             padding: 110px 0;
+        }
+
+        .hero-logo-wrap {
+            position: relative;
+            width: fit-content;
+            margin-bottom: 28px;
+        }
+
+        .hero-logo-wrap::before {
+            content: "";
+            position: absolute;
+            inset: -18px;
+            border-radius: 20px;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(229,9,20,0.18), rgba(229,9,20,0.03) 55%, transparent 72%);
+            filter: blur(10px);
+            z-index: -1;
         }
 
         .hero-logo {
             width: clamp(110px, 16vw, 165px);
             height: auto;
             display: block;
-            margin-bottom: 28px;
         }
 
         .hero-accent {
@@ -591,6 +666,17 @@
                 align-items: flex-start;
                 flex-direction: column;
             }
+
+            .hero-slash {
+                right: -20px;
+                width: 160px;
+                opacity: 0.16;
+            }
+
+            .hero-grid-lines,
+            .hero-angle-line {
+                opacity: 0.55;
+            }
         }
 
         @media (max-width: 680px) {
@@ -652,6 +738,22 @@
 
             .hero-actions .button {
                 width: 100%;
+            }
+
+            .hero-glow {
+                width: 480px;
+                height: 480px;
+                right: -150px;
+            }
+
+            .hero-slash {
+                width: 120px;
+                right: -25px;
+            }
+
+            .hero-grid-lines {
+                background-size: 64px 64px;
+                opacity: 0.08;
             }
 
             .ecosystem-card {
@@ -746,15 +848,27 @@
 
     <section class="hero">
 
+        <div class="hero-graphic">
+            <div class="hero-glow"></div>
+            <div class="hero-slash"></div>
+            <div class="hero-grid-lines"></div>
+            <div class="hero-angle-line line-1"></div>
+            <div class="hero-angle-line line-2"></div>
+            <div class="hero-angle-line line-3"></div>
+            <div class="hero-angle-line line-4"></div>
+        </div>
+
         <div class="container">
 
             <div class="hero-inner">
 
-                <img
-                    src="/assets/ua-logo.png"
-                    alt="Unfazed Action"
-                    class="hero-logo"
-                >
+                <div class="hero-logo-wrap">
+                    <img
+                        src="/assets/ua-logo.png"
+                        alt="Unfazed Action"
+                        class="hero-logo"
+                    >
+                </div>
 
                 <div class="hero-accent"></div>
 
