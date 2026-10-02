@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HabitForge | Unfazed Action</title>
+
+    <meta
+        name="description"
+        content="HabitForge is the Unfazed Action habit-building app for routines, consistency, accountability, streaks, reflection, and connected UA context."
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/assets/ua-logo.png"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="/assets/ua-logo.png"
+    >
+
+    <style>
+        :root {
+            --ua-black: #050505;
+            --ua-dark: #111111;
+            --ua-white: #ffffff;
+            --ua-text: #dddddd;
+            --ua-muted: #929292;
+            --ua-border: #292929;
+            --ua-red: #E50914;
+
+            --hb-blue: #4DA3FF;
+            --hb-blue-soft: rgba(77, 163, 255, 0.13);
+            --hb-blue-border: rgba(77, 163, 255, 0.34);
+            --hb-card: #111820;
+            --hb-card-2: #0d1218;
+
+            --max-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--ua-black);
+            color: var(--ua-white);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--max-width), calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            color: var(--hb-blue);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 22px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-weight: 800;
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            background: var(--hb-blue);
+            color: #06111d;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+
+        .button-secondary {
+            background: #111111;
+            border-color: #383838;
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #191919;
+            border-color: #505050;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.94);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            font-size: 1.2rem;
+        }
+
+        .brand-logo {
+            width: 54px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #cfcfcf;
+            font-size: 0.96rem;
+            transition: 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        nav a.active {
+            font-weight: 800;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 720px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #171717;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 760px;
+            height: 760px;
+            right: -250px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(77, 163, 255, 0.18) 0%,
+                    rgba(77, 163, 255, 0.05) 34%,
+                    transparent 68%
+                );
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 70px;
+            align-items: center;
+            padding: 110px 0;
+        }
+
+        .product-mark {
+            width: 86px;
+            height: 86px;
+            border-radius: 24px;
+            border: 1px solid var(--hb-blue-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(77, 163, 255, 0.12),
+                    #0a1017
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.85rem;
+            letter-spacing: -0.04em;
+            color: var(--hb-blue);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            margin: 12px 0 18px;
+            font-size: clamp(4rem, 9vw, 7rem);
+            line-height: 0.9;
+            letter-spacing: -0.065em;
+        }
+
+        .hero-tagline {
+            margin: 0;
+            color: white;
+            font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+            font-weight: 800;
+        }
+
+        .hero-copy {
+            max-width: 720px;
+            margin: 24px 0 0;
+            color: var(--ua-text);
+            font-size: 1.08rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 34px;
+        }
+
+        .hero-status {
+            padding: 34px;
+            border-radius: 24px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(17, 24, 32, 0.96),
+                    rgba(9, 14, 20, 0.98)
+                );
+        }
+
+        .status-badge {
+            display: inline-flex;
+            min-height: 30px;
+            align-items: center;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: var(--hb-blue-soft);
+            border: 1px solid var(--hb-blue-border);
+            color: var(--hb-blue);
+            font-size: 0.74rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero-status h2 {
+            margin: 20px 0 12px;
+            font-size: 2rem;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-status p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        .status-list {
+            display: grid;
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 14px;
+            border-top: 1px solid #252525;
+        }
+
+        .status-item span:first-child {
+            color: #bdbdbd;
+        }
+
+        .status-item strong {
+            text-align: right;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            padding: 96px 0;
+        }
+
+        .section-dark {
+            background: var(--ua-dark);
+        }
+
+        .section-title {
+            margin: 10px 0 18px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.05em;
+        }
+
+        .section-copy {
+            max-width: 760px;
+            margin: 0;
+            color: var(--ua-text);
+            font-size: 1.08rem;
+        }
+
+        /* PURPOSE */
+
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-top: 50px;
+        }
+
+        .purpose-card {
+            padding: 32px;
+            border-radius: 22px;
+            border: 1px solid var(--ua-border);
+            background: var(--hb-card-2);
+        }
+
+        .purpose-card h3 {
+            margin: 0 0 12px;
+            font-size: 1.45rem;
+        }
+
+        .purpose-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        /* FEATURES */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            min-height: 330px;
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--ua-border);
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--hb-card),
+                    var(--hb-card-2)
+                );
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.22s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #2f4d70;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--hb-blue-soft);
+            border: 1px solid var(--hb-blue-border);
+            color: var(--hb-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .feature-card h3 {
+            margin: 24px 0 12px;
+            font-size: 1.65rem;
+            letter-spacing: -0.035em;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--ua-muted);
+        }
+
+        .feature-status {
+            margin-top: 30px;
+            color: #b7b7b7;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .feature-status.current {
+            color: var(--hb-blue);
+        }
+
+        /* RHYTHM */
+
+        .rhythm-panel {
+            padding: 48px;
+            border-radius: 28px;
+            border: 1px solid #2a2a2a;
+            background:
+                linear-gradient(
+                    135deg,
+                    #111820,
+                    #0b1117
+                );
+        }
+
+        .rhythm-panel h2 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .rhythm-panel p {
+            max-width: 800px;
+            margin: 0;
+            color: var(--ua-text);
+        }
+
+        .rhythm-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 34px;
+        }
+
+        .rhythm-card {
+            padding: 24px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .rhythm-card strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .rhythm-card p {
+            color: var(--ua-muted);
+            font-size: 0.95rem;
+        }
+
+        /* UA PANEL */
+
+        .ua-panel {
+            padding: 48px;
+            border-radius: 28px;
+            border: 1px solid #2a2a2a;
+            background:
+                linear-gradient(
+                    135deg,
+                    #121212,
+                    #180607
+                );
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .ua-panel .eyebrow {
+            color: var(--ua-red);
+        }
+
+        .ua-panel h2 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .ua-panel p {
+            max-width: 760px;
+            margin: 0;
+            color: var(--ua-text);
+        }
+
+        .ua-panel img {
+            width: 100px;
+            height: auto;
+        }
+
+        /* CTA */
+
+        .cta-panel {
+            text-align: center;
+            padding: 74px 30px;
+            border-radius: 28px;
+            border: 1px solid var(--hb-blue-border);
+            background:
+                linear-gradient(
+                    135deg,
+                    #111820,
+                    #0b1117
+                );
+        }
+
+        .cta-panel img {
+            width: 88px;
+            height: auto;
+            margin-bottom: 24px;
+        }
+
+        .cta-panel h2 {
+            margin: 10px 0 18px;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .cta-panel p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: var(--ua-text);
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 46px 0;
+            background: #030303;
+            border-top: 1px solid #1d1d1d;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo {
+            width: 48px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .footer-brand {
+            font-weight: 800;
+        }
+
+        .footer-copy {
+            margin-top: 5px;
+            color: #717171;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #8e8e8e;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 980px) {
+            nav {
+                display: none;
+            }
+
+            .hero-grid,
+            .purpose-grid,
+            .feature-grid,
+            .rhythm-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ua-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .ua-panel img {
+                display: none;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                width: min(100% - 28px, var(--max-width));
+            }
+
+            .nav {
+                min-height: 66px;
+            }
+
+            .brand {
+                font-size: 1rem;
+                gap: 8px;
+            }
+
+            .brand-logo {
+                width: 46px;
+                height: 34px;
+            }
+
+            .nav-actions .button-secondary {
+                display: none;
+            }
+
+            .nav-actions .button {
+                min-height: 42px;
+                padding: 0 16px;
+                font-size: 0.88rem;
+            }
+
+            .hero-grid {
+                padding: 90px 0;
+                gap: 42px;
+            }
+
+            .hero h1 {
+                font-size: clamp(3.6rem, 16vw, 5.2rem);
+            }
+
+            .section {
+                padding: 72px 0;
+            }
+
+            .rhythm-panel,
+            .ua-panel {
+                padding: 32px 24px;
+            }
+
+            .cta-panel {
+                padding: 54px 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="container nav">
+
+        <a
+            class="brand"
+            href="/"
+        >
+            <img
+                src="/assets/ua-logo.png"
+                alt="Unfazed Action logo"
+                class="brand-logo"
+            >
+
+            <span>
+                UNFAZED ACTION
+            </span>
+        </a>
+
+        <nav>
+            <a href="/#about">
+                About
+            </a>
+
+            <a
+                href="/apps/"
+                class="active"
+            >
+                Apps
+            </a>
+
+            <a href="/#ua-plus">
+                UA+
+            </a>
+
+            <a href="/#family">
+                Family
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+        </nav>
+
+        <div class="nav-actions">
+
+            <a
+                class="button button-secondary"
+                href="/#account"
+            >
+                Sign In
+            </a>
+
+            <a
+                class="button button-primary"
+                href="/apps/"
+            >
+                All UA Apps
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="container hero-grid">
+
+            <div>
+
+                <div class="product-mark">
+                    HB
+                </div>
+
+                <div class="eyebrow">
+                    Unfazed Action Habits
+                </div>
+
+                <h1>
+                    HABITFORGE
+                </h1>
+
+                <p class="hero-tagline">
+                    Build what you repeat.
+                </p>
+
+                <p class="hero-copy">
+                    HabitForge is being designed to help people build
+                    consistency through small, repeatable actions. It focuses
+                    on routines, accountability, streaks, reflection, and
+                    progress without turning habit-building into pressure or
+                    noise.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a
+                        class="button button-primary"
+                        href="#features"
+                    >
+                        Explore Features
+                    </a>
+
+                    <a
+                        class="button button-secondary"
+                        href="/apps/"
+                    >
+                        Back to UA Apps
+                    </a>
+
+                </div>
+
+            </div>
+
+            <aside class="hero-status">
+
+                <span class="status-badge">
+                    Planned
+                </span>
+
+                <h2>
+                    Calm structure for consistent action.
+                </h2>
+
+                <p>
+                    HabitForge is intended to make progress feel clear,
+                    sustainable, and easy to return to.
+                </p>
+
+                <div class="status-list">
+
+                    <div class="status-item">
+                        <span>Habit Tracking</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>Routines</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>Reflection</span>
+                        <strong>Planned</strong>
+                    </div>
+
+                    <div class="status-item">
+                        <span>UA Context</span>
+                        <strong>Shared Core</strong>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="eyebrow">
+                The idea
+            </div>
+
+            <h2 class="section-title">
+                Progress is usually built in the small things.
+            </h2>
+
+            <p class="section-copy">
+                HabitForge is not meant to overwhelm users with giant
+                transformations. It is designed around repeatable actions,
+                realistic routines, and the kind of consistency that compounds
+                over time.
+            </p>
+
+            <div class="purpose-grid">
+
+                <div class="purpose-card">
+                    <h3>Make the next action clear</h3>
+                    <p>
+                        Good habit systems reduce friction and make it easier to
+                        know what should happen next.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Reward consistency, not perfection</h3>
+                    <p>
+                        Missing once should not erase progress. HabitForge can
+                        focus on returning to the routine instead of punishing
+                        the user.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Turn reflection into adjustment</h3>
+                    <p>
+                        Simple check-ins can help users understand what is
+                        working, what is getting in the way, and what needs to
+                        change.
+                    </p>
+                </div>
+
+                <div class="purpose-card">
+                    <h3>Support the bigger UA picture</h3>
+                    <p>
+                        Habits can connect to goals and context across UA while
+                        HabitForge stays focused on repeatable daily action.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section
+        class="section section-dark"
+        id="features"
+    >
+
+        <div class="container">
+
+            <div class="eyebrow">
+                Planned core features
+            </div>
+
+            <h2 class="section-title">
+                The HabitForge toolkit.
+            </h2>
+
+            <p class="section-copy">
+                The product direction centers on calm accountability and useful
+                feedback rather than endless notifications or pressure.
+            </p>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            HT
+                        </div>
+
+                        <h3>
+                            Habit Tracking
+                        </h3>
+
+                        <p>
+                            Create habits, mark completion, and see progress in
+                            a simple format that makes consistency easy to
+                            understand.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Direction
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            RT
+                        </div>
+
+                        <h3>
+                            Routines
+                        </h3>
+
+                        <p>
+                            Group habits into practical routines for mornings,
+                            evenings, workdays, training days, or other parts of
+                            life.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Direction
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            ST
+                        </div>
+
+                        <h3>
+                            Streaks & Consistency
+                        </h3>
+
+                        <p>
+                            Track consistency in a way that encourages momentum
+                            without making one missed day feel like failure.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        Core Direction
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            RF
+                        </div>
+
+                        <h3>
+                            Reflection
+                        </h3>
+
+                        <p>
+                            Add quick notes and check-ins so users can connect
+                            their actions to what helped, what got in the way,
+                            and what they want to improve.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Planned
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            AC
+                        </div>
+
+                        <h3>
+                            Accountability
+                        </h3>
+
+                        <p>
+                            HabitForge can support gentle accountability through
+                            progress summaries, reminders, and user-selected
+                            commitments.
+                        </p>
+                    </div>
+
+                    <div class="feature-status">
+                        Planned
+                    </div>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div>
+                        <div class="feature-icon">
+                            UA
+                        </div>
+
+                        <h3>
+                            Connected UA Context
+                        </h3>
+
+                        <p>
+                            Relevant context from across Unfazed Action can help
+                            HabitForge understand which routines support a
+                            user’s broader goals without making HabitForge
+                            responsible for every area of life.
+                        </p>
+                    </div>
+
+                    <div class="feature-status current">
+                        UA Ecosystem
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="rhythm-panel">
+
+                <div class="eyebrow">
+                    A calmer approach
+                </div>
+
+                <h2>
+                    Habit-building should create rhythm, not pressure.
+                </h2>
+
+                <p>
+                    HabitForge’s identity is intentionally calmer than many
+                    productivity tools. The goal is to make daily action feel
+                    steady and sustainable instead of urgent, noisy, or
+                    guilt-driven.
+                </p>
+
+                <div class="rhythm-grid">
+
+                    <div class="rhythm-card">
+                        <strong>
+                            Small promises
+                        </strong>
+
+                        <p>
+                            Simple commitments can be more powerful than giant
+                            plans that are difficult to maintain.
+                        </p>
+                    </div>
+
+                    <div class="rhythm-card">
+                        <strong>
+                            Easy recovery
+                        </strong>
+
+                        <p>
+                            A missed day should lead back into the routine, not
+                            into an all-or-nothing reset.
+                        </p>
+                    </div>
+
+                    <div class="rhythm-card">
+                        <strong>
+                            Visible progress
+                        </strong>
+
+                        <p>
+                            Clear progress can reinforce momentum without
+                            turning every day into a competition.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section section-dark">
+
+        <div class="container">
+
+            <div class="ua-panel">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Unfazed Action
+                    </div>
+
+                    <h2>
+                        HabitForge connects daily action to the wider UA mission.
+                    </h2>
+
+                    <p>
+                        UA Account remains the shared source of identity,
+                        permissions, family structure, and UA+ status.
+                        HabitForge can use relevant shared context to support
+                        routines and goals while staying focused on habits and
+                        consistency.
+                    </p>
+
+                </div>
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="cta-panel">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                >
+
+                <div class="eyebrow">
+                    HabitForge + Unfazed Action
+                </div>
+
+                <h2>
+                    Build what you repeat.
+                </h2>
+
+                <p>
+                    HabitForge is being designed to make consistency feel
+                    simpler, calmer, and easier to sustain over time.
+                </p>
+
+                <a
+                    class="button button-primary"
+                    href="/apps/"
+                >
+                    Explore All UA Apps
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+
+            <div class="footer-brand-wrap">
+
+                <img
+                    src="/assets/ua-logo.png"
+                    alt="Unfazed Action logo"
+                    class="footer-logo"
+                >
+
+                <div class="footer-brand">
+                    UNFAZED ACTION
+                </div>
+
+            </div>
+
+            <div class="footer-copy">
+                © 2026 Unfazed Action. All rights reserved.
+            </div>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/apps/">
+                UA Apps
+            </a>
+
+            <a href="/#support">
+                Support
+            </a>
+
+            <a href="/#account">
+                UA Account
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
