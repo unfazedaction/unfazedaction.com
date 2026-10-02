@@ -31,12 +31,21 @@
             --ua-black: #050505;
             --ua-dark: #111111;
             --ua-card: #171717;
+            --ua-card-hover: #1d1d1d;
             --ua-white: #ffffff;
             --ua-text: #dddddd;
             --ua-muted: #929292;
             --ua-border: #292929;
             --ua-red: #E50914;
             --max-width: 1180px;
+
+            --pf: #E50914;
+            --hf: #38D46F;
+            --mf: #F2B84B;
+            --hb: #4DA3FF;
+            --mn: #9B7BFF;
+            --lf: #C7CED4;
+            --bf: #36C2B4;
         }
 
         * {
@@ -96,8 +105,8 @@
         }
 
         .button-secondary {
-            border-color: #383838;
             background: #111111;
+            border-color: #383838;
             color: white;
         }
 
@@ -171,26 +180,30 @@
         /* HERO */
 
         .hero {
-            padding: 110px 0 82px;
+            padding: 118px 0 92px;
             border-bottom: 1px solid #151515;
             background:
-                radial-gradient(circle at 90% 25%, rgba(229, 9, 20, 0.12), transparent 32%),
-                linear-gradient(180deg, #050505 0%, #070707 100%);
+                radial-gradient(circle at 88% 30%, rgba(229, 9, 20, 0.12), transparent 30%),
+                linear-gradient(180deg, #050505 0%, #080808 100%);
         }
 
         .hero h1 {
-            margin: 10px 0 18px;
-            font-size: clamp(3.1rem, 8vw, 5.8rem);
+            margin: 12px 0 20px;
+            max-width: 900px;
+            font-size: clamp(3.4rem, 8vw, 6.2rem);
             line-height: 0.95;
             letter-spacing: -0.06em;
-            max-width: 900px;
+        }
+
+        .hero h1 span {
+            color: var(--ua-red);
         }
 
         .hero p {
             max-width: 760px;
             margin: 0;
             color: var(--ua-text);
-            font-size: 1.1rem;
+            font-size: 1.12rem;
         }
 
         .hero-actions {
@@ -200,61 +213,107 @@
             margin-top: 34px;
         }
 
-        /* APPS GRID */
+        /* CATEGORY SECTIONS */
 
-        .apps-section {
-            padding: 82px 0 96px;
+        .category {
+            padding: 86px 0;
+            border-bottom: 1px solid #151515;
         }
 
-        .apps-grid {
+        .category:nth-child(even) {
+            background: var(--ua-dark);
+        }
+
+        .category-head {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 22px;
-            margin-top: 40px;
+            grid-template-columns: 0.75fr 1.25fr;
+            gap: 48px;
+            align-items: end;
+            margin-bottom: 34px;
         }
+
+        .category-kicker {
+            color: var(--ua-red);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .category h2 {
+            margin: 0;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+
+        .category-description {
+            margin: 0;
+            color: var(--ua-muted);
+            max-width: 640px;
+            justify-self: end;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        /* APP CARDS */
 
         .app-card {
-            min-height: 320px;
+            position: relative;
+            min-height: 330px;
             padding: 30px;
             border-radius: 24px;
             border: 1px solid var(--ua-border);
             background:
-                linear-gradient(145deg, #171717, #101010);
+                linear-gradient(
+                    145deg,
+                    #171717,
+                    #101010
+                );
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
             overflow: hidden;
-            transition: 0.22s ease;
             cursor: pointer;
+            transition:
+                transform 0.22s ease,
+                border-color 0.22s ease,
+                background 0.22s ease;
         }
 
-        .app-card::after {
+        .app-card:hover,
+        .app-card:focus-within {
+            transform: translateY(-4px);
+            border-color: #414141;
+            background:
+                linear-gradient(
+                    145deg,
+                    #1c1c1c,
+                    #121212
+                );
+        }
+
+        .app-card::before {
             content: "";
             position: absolute;
-            inset: auto -90px -90px auto;
-            width: 220px;
-            height: 220px;
+            width: 250px;
+            height: 250px;
+            right: -110px;
+            bottom: -110px;
             border-radius: 50%;
-            background:
-                radial-gradient(circle, rgba(255,255,255,0.08), transparent 68%);
-            opacity: 0;
+            opacity: 0.12;
             transition: 0.22s ease;
             pointer-events: none;
         }
 
-        .app-card:hover,
-        .app-card:focus-visible {
-            transform: translateY(-4px);
-            border-color: #3a3a3a;
-            background:
-                linear-gradient(145deg, #1b1b1b, #121212);
-            outline: none;
-        }
-
-        .app-card:hover::after,
-        .app-card:focus-visible::after {
-            opacity: 1;
+        .app-card:hover::before,
+        .app-card:focus-within::before {
+            opacity: 0.2;
         }
 
         .app-card > * {
@@ -262,115 +321,228 @@
             z-index: 2;
         }
 
-        .app-card-top {
+        .app-top {
             display: flex;
-            flex-direction: column;
+            align-items: flex-start;
             gap: 22px;
         }
 
-        .app-badge {
-            width: 60px;
-            height: 60px;
-            border-radius: 17px;
-            display: inline-flex;
+        .app-mark {
+            width: 68px;
+            height: 68px;
+            flex: 0 0 auto;
+            border-radius: 19px;
+            display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.08rem;
             font-weight: 900;
-            font-size: 1.05rem;
-            letter-spacing: -0.04em;
-            border: 1px solid rgba(255,255,255,0.08);
+            letter-spacing: -0.03em;
+            border: 1px solid;
         }
 
-        .badge-red {
-            background: rgba(229, 9, 20, 0.12);
-            color: #ff4953;
-            border-color: rgba(229, 9, 20, 0.28);
+        .app-title-wrap {
+            padding-top: 4px;
         }
 
-        .badge-green {
-            background: rgba(50, 201, 106, 0.12);
-            color: #41d378;
-            border-color: rgba(50, 201, 106, 0.28);
-        }
-
-        .badge-gold {
-            background: rgba(242, 184, 75, 0.12);
-            color: #f2b84b;
-            border-color: rgba(242, 184, 75, 0.28);
-        }
-
-        .badge-blue {
-            background: rgba(77, 163, 255, 0.12);
-            color: #4da3ff;
-            border-color: rgba(77, 163, 255, 0.28);
-        }
-
-        .badge-purple {
-            background: rgba(155, 123, 255, 0.12);
-            color: #9b7bff;
-            border-color: rgba(155, 123, 255, 0.28);
-        }
-
-        .badge-steel {
-            background: rgba(154, 164, 174, 0.12);
-            color: #c7ced4;
-            border-color: rgba(154, 164, 174, 0.28);
-        }
-
-        .badge-teal {
-            background: rgba(54, 194, 180, 0.12);
-            color: #36c2b4;
-            border-color: rgba(54, 194, 180, 0.28);
-        }
-
-        .app-card h2 {
-            margin: 0 0 10px;
-            font-size: 1.8rem;
-            line-height: 1.05;
+        .app-card h3 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            line-height: 1;
             letter-spacing: -0.04em;
         }
 
         .app-card p {
             margin: 0;
             color: var(--ua-muted);
-            font-size: 1rem;
+            max-width: 520px;
         }
 
-        .app-card-bottom {
+        .app-bottom {
+            margin-top: 36px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 18px;
-            margin-top: 28px;
+            align-items: center;
+            gap: 20px;
         }
 
         .status {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 900;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.13em;
             text-transform: uppercase;
         }
 
-        .status-red { color: #ff4953; }
-        .status-green { color: #41d378; }
-        .status-gold { color: #f2b84b; }
-        .status-blue { color: #4da3ff; }
-        .status-purple { color: #9b7bff; }
-        .status-steel { color: #c7ced4; }
-        .status-teal { color: #36c2b4; }
-
-        .card-arrow {
-            color: #d6d6d6;
-            font-size: 1rem;
+        .app-link {
+            position: static;
+            font-size: 0.94rem;
             font-weight: 800;
-            transition: 0.22s ease;
-            white-space: nowrap;
+            color: #dddddd;
+            transition: 0.2s ease;
         }
 
-        .app-card:hover .card-arrow,
-        .app-card:focus-visible .card-arrow {
-            transform: translateX(4px);
+        /* This is the only interaction change:
+           stretch the existing app link across the entire card. */
+        .app-link::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+        }
+
+        .app-card:hover .app-link {
             color: white;
+        }
+
+        .app-card:hover .app-link span {
+            display: inline-block;
+            transform: translateX(4px);
+        }
+
+        .app-link span {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        /* PRODUCT COLORS */
+
+        .paceforge::before {
+            background: radial-gradient(circle, var(--pf), transparent 68%);
+        }
+
+        .paceforge .app-mark {
+            color: #ff4d56;
+            background: rgba(229, 9, 20, 0.12);
+            border-color: rgba(229, 9, 20, 0.3);
+        }
+
+        .paceforge .status {
+            color: #ff4d56;
+        }
+
+
+        .liftforge::before {
+            background: radial-gradient(circle, var(--lf), transparent 68%);
+        }
+
+        .liftforge .app-mark {
+            color: var(--lf);
+            background: rgba(154, 164, 174, 0.12);
+            border-color: rgba(154, 164, 174, 0.3);
+        }
+
+        .liftforge .status {
+            color: var(--lf);
+        }
+
+
+        .homeforge::before {
+            background: radial-gradient(circle, var(--hf), transparent 68%);
+        }
+
+        .homeforge .app-mark {
+            color: var(--hf);
+            background: rgba(56, 212, 111, 0.12);
+            border-color: rgba(56, 212, 111, 0.3);
+        }
+
+        .homeforge .status {
+            color: var(--hf);
+        }
+
+
+        .mealforge::before {
+            background: radial-gradient(circle, var(--mf), transparent 68%);
+        }
+
+        .mealforge .app-mark {
+            color: var(--mf);
+            background: rgba(242, 184, 75, 0.12);
+            border-color: rgba(242, 184, 75, 0.3);
+        }
+
+        .mealforge .status {
+            color: var(--mf);
+        }
+
+
+        .habitforge::before {
+            background: radial-gradient(circle, var(--hb), transparent 68%);
+        }
+
+        .habitforge .app-mark {
+            color: var(--hb);
+            background: rgba(77, 163, 255, 0.12);
+            border-color: rgba(77, 163, 255, 0.3);
+        }
+
+        .habitforge .status {
+            color: var(--hb);
+        }
+
+
+        .mindforge::before {
+            background: radial-gradient(circle, var(--mn), transparent 68%);
+        }
+
+        .mindforge .app-mark {
+            color: var(--mn);
+            background: rgba(155, 123, 255, 0.12);
+            border-color: rgba(155, 123, 255, 0.3);
+        }
+
+        .mindforge .status {
+            color: var(--mn);
+        }
+
+
+        .budgetforge::before {
+            background: radial-gradient(circle, var(--bf), transparent 68%);
+        }
+
+        .budgetforge .app-mark {
+            color: var(--bf);
+            background: rgba(54, 194, 180, 0.12);
+            border-color: rgba(54, 194, 180, 0.3);
+        }
+
+        .budgetforge .status {
+            color: var(--bf);
+        }
+
+        .single-card {
+            max-width: calc(50% - 12px);
+        }
+
+        /* CTA */
+
+        .closing {
+            padding: 92px 0;
+        }
+
+        .closing-panel {
+            padding: 48px;
+            border: 1px solid var(--ua-border);
+            border-radius: 26px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #111111,
+                    #180708
+                );
+        }
+
+        .closing-panel h2 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.3rem, 5vw, 3.8rem);
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+
+        .closing-panel p {
+            max-width: 720px;
+            margin: 0 0 28px;
+            color: var(--ua-text);
         }
 
         /* FOOTER */
@@ -428,15 +600,26 @@
 
         /* RESPONSIVE */
 
-        @media (max-width: 1100px) {
-            .apps-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
         @media (max-width: 980px) {
             nav {
                 display: none;
+            }
+
+            .category-head {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .category-description {
+                justify-self: start;
+            }
+
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .single-card {
+                max-width: none;
             }
         }
 
@@ -465,12 +648,12 @@
 
             .nav-actions .button {
                 min-height: 42px;
-                padding: 0 17px;
-                font-size: 0.9rem;
+                padding: 0 16px;
+                font-size: 0.88rem;
             }
 
             .hero {
-                padding: 88px 0 66px;
+                padding: 88px 0 68px;
             }
 
             .hero-actions {
@@ -481,17 +664,40 @@
                 width: 100%;
             }
 
-            .apps-section {
-                padding: 66px 0 78px;
-            }
-
-            .apps-grid {
-                grid-template-columns: 1fr;
+            .category {
+                padding: 70px 0;
             }
 
             .app-card {
-                min-height: 280px;
+                min-height: 300px;
                 padding: 24px;
+            }
+
+            .app-top {
+                gap: 18px;
+            }
+
+            .app-mark {
+                width: 58px;
+                height: 58px;
+            }
+
+            .app-card h3 {
+                font-size: 1.65rem;
+            }
+
+            .app-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .closing {
+                padding: 70px 0;
+            }
+
+            .closing-panel {
+                padding: 32px 24px;
             }
 
             .footer-inner {
@@ -576,35 +782,35 @@
         <div class="container">
 
             <div class="eyebrow">
-                Unfazed Action Ecosystem
+                The Unfazed Action Ecosystem
             </div>
 
             <h1>
                 Different tools.
                 <br>
-                One ecosystem.
+                <span>One connected life.</span>
             </h1>
 
             <p>
-                Each Unfazed Action app focuses on one part of life while
-                sharing the larger UA vision. Explore the current lineup
-                and see how each tool fits into the bigger picture.
+                Each Unfazed Action app is built to solve a specific part of
+                everyday life while remaining part of one larger ecosystem.
+                Explore the current and planned UA lineup below.
             </p>
 
             <div class="hero-actions">
 
                 <a
                     class="button button-primary"
-                    href="/"
+                    href="#move"
                 >
-                    Back to Home
+                    Explore UA Apps
                 </a>
 
                 <a
                     class="button button-secondary"
-                    href="#ua-apps"
+                    href="/"
                 >
-                    Browse UA Apps
+                    Back to UA Home
                 </a>
 
             </div>
@@ -614,247 +820,452 @@
     </section>
 
 
-    <section class="apps-section" id="ua-apps">
+    <section class="category" id="move">
 
         <div class="container">
 
-            <div class="apps-grid">
+            <div class="category-head">
 
-                <a class="app-card" href="/apps/paceforge/">
+                <div>
+                    <div class="category-kicker">
+                        Move
+                    </div>
 
-                    <div class="app-card-top">
+                    <h2>
+                        Train with purpose.
+                    </h2>
+                </div>
 
-                        <div class="app-badge badge-red">
+                <p class="category-description">
+                    UA movement tools focus on the work: running, strength,
+                    progression, consistency, and understanding what comes next.
+                </p>
+
+            </div>
+
+            <div class="app-grid">
+
+                <article class="app-card paceforge">
+
+                    <div class="app-top">
+
+                        <div class="app-mark">
                             PF
                         </div>
 
-                        <div>
-                            <h2>
+                        <div class="app-title-wrap">
+                            <h3>
                                 PaceForge
-                            </h2>
+                            </h3>
 
                             <p>
-                                Running tools designed to make every step
-                                have a purpose.
+                                Running tools designed to make every step have a
+                                purpose, from guided pacing to intervals,
+                                workouts, and training history.
                             </p>
                         </div>
 
                     </div>
 
-                    <div class="app-card-bottom">
-                        <div class="status status-red">
+                    <div class="app-bottom">
+
+                        <div class="status">
                             In Development
                         </div>
 
-                        <div class="card-arrow">
-                            View app →
-                        </div>
-                    </div>
-
-                </a>
-
-
-                <a class="app-card" href="/apps/homeforge/">
-
-                    <div class="app-card-top">
-
-                        <div class="app-badge badge-green">
-                            HF
-                        </div>
-
-                        <div>
-                            <h2>
-                                HomeForge
-                            </h2>
-
-                            <p>
-                                Household inventory, organization, shopping,
-                                and smarter home management.
-                            </p>
-                        </div>
+                        <a
+                            class="app-link"
+                            href="/apps/paceforge/"
+                            aria-label="Explore PaceForge"
+                        >
+                            Explore PaceForge
+                            <span>→</span>
+                        </a>
 
                     </div>
 
-                    <div class="app-card-bottom">
-                        <div class="status status-green">
-                            Planned
-                        </div>
-
-                        <div class="card-arrow">
-                            View app →
-                        </div>
-                    </div>
-
-                </a>
+                </article>
 
 
-                <a class="app-card" href="/apps/mealforge/">
+                <article class="app-card liftforge">
 
-                    <div class="app-card-top">
+                    <div class="app-top">
 
-                        <div class="app-badge badge-gold">
-                            MF
-                        </div>
-
-                        <div>
-                            <h2>
-                                MealForge
-                            </h2>
-
-                            <p>
-                                Meal planning and preparation designed around
-                                real households and real food needs.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="app-card-bottom">
-                        <div class="status status-gold">
-                            Planned
-                        </div>
-
-                        <div class="card-arrow">
-                            View app →
-                        </div>
-                    </div>
-
-                </a>
-
-
-                <a class="app-card" href="/apps/habitforge/">
-
-                    <div class="app-card-top">
-
-                        <div class="app-badge badge-blue">
-                            HB
-                        </div>
-
-                        <div>
-                            <h2>
-                                HabitForge
-                            </h2>
-
-                            <p>
-                                Build consistency through meaningful habits,
-                                routines, and everyday action.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="app-card-bottom">
-                        <div class="status status-blue">
-                            Planned
-                        </div>
-
-                        <div class="card-arrow">
-                            View app →
-                        </div>
-                    </div>
-
-                </a>
-
-
-                <a class="app-card" href="/apps/mindforge/">
-
-                    <div class="app-card-top">
-
-                        <div class="app-badge badge-purple">
-                            MN
-                        </div>
-
-                        <div>
-                            <h2>
-                                MindForge
-                            </h2>
-
-                            <p>
-                                Reflection, mindset, journaling, emotional
-                                check-ins, and personal growth.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="app-card-bottom">
-                        <div class="status status-purple">
-                            Future
-                        </div>
-
-                        <div class="card-arrow">
-                            View app →
-                        </div>
-                    </div>
-
-                </a>
-
-
-                <a class="app-card" href="/apps/liftforge/">
-
-                    <div class="app-card-top">
-
-                        <div class="app-badge badge-steel">
+                        <div class="app-mark">
                             LF
                         </div>
 
-                        <div>
-                            <h2>
+                        <div class="app-title-wrap">
+                            <h3>
                                 LiftForge
-                            </h2>
+                            </h3>
 
                             <p>
                                 Strength training tools built around structured
-                                workouts, progression, and exercise history.
+                                workouts, useful exercise history, progression,
+                                and purposeful training.
                             </p>
                         </div>
 
                     </div>
 
-                    <div class="app-card-bottom">
-                        <div class="status status-steel">
+                    <div class="app-bottom">
+
+                        <div class="status">
                             Planned
                         </div>
 
-                        <div class="card-arrow">
-                            View app →
-                        </div>
+                        <a
+                            class="app-link"
+                            href="/apps/liftforge/"
+                            aria-label="Explore LiftForge"
+                        >
+                            Explore LiftForge
+                            <span>→</span>
+                        </a>
+
                     </div>
 
-                </a>
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
-                <a class="app-card" href="/apps/budgetforge/">
+    <section class="category" id="live">
 
-                    <div class="app-card-top">
+        <div class="container">
 
-                        <div class="app-badge badge-teal">
+            <div class="category-head">
+
+                <div>
+                    <div class="category-kicker">
+                        Live
+                    </div>
+
+                    <h2>
+                        Make everyday life easier to manage.
+                    </h2>
+                </div>
+
+                <p class="category-description">
+                    Home and food tools help households stay organized,
+                    prepared, connected, and ready for everyday life.
+                </p>
+
+            </div>
+
+            <div class="app-grid">
+
+                <article class="app-card homeforge">
+
+                    <div class="app-top">
+
+                        <div class="app-mark">
+                            HF
+                        </div>
+
+                        <div class="app-title-wrap">
+                            <h3>
+                                HomeForge
+                            </h3>
+
+                            <p>
+                                Household inventory, shopping, organization,
+                                rooms, chores, and shared home management in one
+                                connected experience.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="app-bottom">
+
+                        <div class="status">
+                            Planned
+                        </div>
+
+                        <a
+                            class="app-link"
+                            href="/apps/homeforge/"
+                            aria-label="Explore HomeForge"
+                        >
+                            Explore HomeForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="app-card mealforge">
+
+                    <div class="app-top">
+
+                        <div class="app-mark">
+                            MF
+                        </div>
+
+                        <div class="app-title-wrap">
+                            <h3>
+                                MealForge
+                            </h3>
+
+                            <p>
+                                Meal planning, recipes, prep, grocery planning,
+                                and food decisions designed around the people
+                                actually living in the home.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="app-bottom">
+
+                        <div class="status">
+                            Planned
+                        </div>
+
+                        <a
+                            class="app-link"
+                            href="/apps/mealforge/"
+                            aria-label="Explore MealForge"
+                        >
+                            Explore MealForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="category" id="grow">
+
+        <div class="container">
+
+            <div class="category-head">
+
+                <div>
+                    <div class="category-kicker">
+                        Grow
+                    </div>
+
+                    <h2>
+                        Build the person behind the goals.
+                    </h2>
+                </div>
+
+                <p class="category-description">
+                    UA growth tools focus on habits, reflection, resilience,
+                    consistency, and the actions that shape who you become.
+                </p>
+
+            </div>
+
+            <div class="app-grid">
+
+                <article class="app-card habitforge">
+
+                    <div class="app-top">
+
+                        <div class="app-mark">
+                            HB
+                        </div>
+
+                        <div class="app-title-wrap">
+                            <h3>
+                                HabitForge
+                            </h3>
+
+                            <p>
+                                Calm habit building, routines, accountability,
+                                streaks, reflection, and progress without
+                                turning growth into pressure.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="app-bottom">
+
+                        <div class="status">
+                            Planned
+                        </div>
+
+                        <a
+                            class="app-link"
+                            href="/apps/habitforge/"
+                            aria-label="Explore HabitForge"
+                        >
+                            Explore HabitForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="app-card mindforge">
+
+                    <div class="app-top">
+
+                        <div class="app-mark">
+                            MN
+                        </div>
+
+                        <div class="app-title-wrap">
+                            <h3>
+                                MindForge
+                            </h3>
+
+                            <p>
+                                A reflective space for journaling, mindset,
+                                resilience, affirmations, emotional check-ins,
+                                and intentional personal growth.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="app-bottom">
+
+                        <div class="status">
+                            Future
+                        </div>
+
+                        <a
+                            class="app-link"
+                            href="/apps/mindforge/"
+                            aria-label="Explore MindForge"
+                        >
+                            Explore MindForge
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="category" id="manage">
+
+        <div class="container">
+
+            <div class="category-head">
+
+                <div>
+                    <div class="category-kicker">
+                        Manage
+                    </div>
+
+                    <h2>
+                        Make clearer decisions.
+                    </h2>
+                </div>
+
+                <p class="category-description">
+                    UA management tools turn complicated parts of everyday life
+                    into clearer information and more practical next steps.
+                </p>
+
+            </div>
+
+            <div class="app-grid">
+
+                <article class="app-card budgetforge single-card">
+
+                    <div class="app-top">
+
+                        <div class="app-mark">
                             BF
                         </div>
 
-                        <div>
-                            <h2>
+                        <div class="app-title-wrap">
+                            <h3>
                                 BudgetForge
-                            </h2>
+                            </h3>
 
                             <p>
-                                Understand your money, build a plan, and make
-                                financial decisions with greater clarity.
+                                Understand your money, plan cash flow, organize
+                                debt, build savings goals, and make financial
+                                decisions with greater clarity.
                             </p>
                         </div>
 
                     </div>
 
-                    <div class="app-card-bottom">
-                        <div class="status status-teal">
+                    <div class="app-bottom">
+
+                        <div class="status">
                             Planned
                         </div>
 
-                        <div class="card-arrow">
-                            View app →
-                        </div>
+                        <a
+                            class="app-link"
+                            href="/apps/budgetforge/"
+                            aria-label="Explore BudgetForge"
+                        >
+                            Explore BudgetForge
+                            <span>→</span>
+                        </a>
+
                     </div>
 
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="closing">
+
+        <div class="container">
+
+            <div class="closing-panel">
+
+                <div class="eyebrow">
+                    One UA
+                </div>
+
+                <h2>
+                    Specialized apps.
+                    <br>
+                    Shared foundation.
+                </h2>
+
+                <p>
+                    Every Forge app has a clear job. UA Account, UA+, family
+                    structure, permissions, and relevant shared context create
+                    the foundation that allows those tools to work as one
+                    ecosystem.
+                </p>
+
+                <a
+                    class="button button-primary"
+                    href="/"
+                >
+                    Return to Unfazed Action
                 </a>
 
             </div>
