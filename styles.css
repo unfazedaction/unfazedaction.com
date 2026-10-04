@@ -219,22 +219,15 @@
             z-index: 2;
         }
 
-        .hero-inner {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            padding: 92px 0;
-            transform: translateY(-28px);
-        }
-
-        .hero-logo-wrap {
-            position: relative;
+        .hero-logo-floating {
+            position: absolute;
+            top: 58px;
+            left: 24px;
+            z-index: 3;
             width: fit-content;
-            margin-left: -92px;
-            margin-bottom: 16px;
         }
 
-        .hero-logo-wrap::before {
+        .hero-logo-floating::before {
             content: "";
             position: absolute;
             inset: -18px;
@@ -251,15 +244,23 @@
         }
 
         .hero-logo {
-            width: clamp(100px, 12vw, 142px);
+            width: clamp(100px, 11vw, 138px);
             height: auto;
             display: block;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 76px 0 72px;
+            transform: translateY(-12px);
         }
 
         .hero-accent {
             width: 82px;
             height: 6px;
-            margin-bottom: 18px;
+            margin-bottom: 8px;
             background: var(--ua-red);
         }
 
@@ -278,14 +279,14 @@
 
         .hero-mission {
             max-width: 790px;
-            margin: 26px 0 0;
+            margin: 20px 0 0;
             color: var(--ua-text);
             font-size: clamp(1.2rem, 2.4vw, 1.55rem);
             line-height: 1.55;
         }
 
         .hero-supporting {
-            margin-top: 14px;
+            margin-top: 10px;
             color: var(--ua-muted);
             font-size: 1.02rem;
             max-width: 670px;
@@ -295,7 +296,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 14px;
-            margin-top: 30px;
+            margin-top: 24px;
         }
 
         /* ABOUT */
@@ -662,21 +663,21 @@
             }
 
             .hero-inner {
-                padding: 78px 0 72px;
-                transform: translateY(-10px);
+                padding: 118px 0 64px;
+                transform: none;
             }
 
-            .hero-logo-wrap {
-                margin-left: -20px;
-                margin-bottom: 14px;
+            .hero-logo-floating {
+                top: 24px;
+                left: 14px;
             }
 
             .hero-logo {
-                width: 104px;
+                width: 94px;
             }
 
             .hero-accent {
-                margin-bottom: 16px;
+                margin-bottom: 10px;
             }
 
             .hero h1 {
