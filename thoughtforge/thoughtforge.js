@@ -67,11 +67,17 @@ function start(){
  };
  $('tagFilters').onclick=event=>{
   const button=event.target.closest('button[data-tag]');if(!button)return;
-  selectedTag=selectedTag===button.dataset.tag?null:button.dataset.tag;render();
+  selectedTag=selectedTag===button.dataset.tag?null:button.dataset.tag;
+  if(selectedTag){filter='all';document.querySelectorAll('.filter').forEach(other=>other.classList.toggle('active',other.dataset.filter==='all'));}
+  render();
  };
  $('items').addEventListener('click',async event=>{
   const button=event.target.closest('button');if(!button||!user||actionBusy)return;
-  if(button.dataset.tag){selectedTag=selectedTag===button.dataset.tag?null:button.dataset.tag;render();return;}
+  if(button.dataset.tag){
+   selectedTag=selectedTag===button.dataset.tag?null:button.dataset.tag;
+   if(selectedTag){filter='all';document.querySelectorAll('.filter').forEach(other=>other.classList.toggle('active',other.dataset.filter==='all'));}
+   render();return;
+  }
   const id=button.dataset.id,action=button.dataset.action;
   if(!id||!action)return;
   const record=records.find(item=>item.id===id);if(!record)return;
@@ -138,7 +144,23 @@ function start(){
    for(const tag of (item.tags||[])){
     const tagButton=document.createElement('button');tagButton.type='button';tagButton.className='item-tag';tagButton.dataset.tag=tag;tagButton.textContent=tag;meta.append(tagButton);
    }
-   const body=document.createElement('p');body.className='item-body'+(item.done?' done':'');body.textContent=item.content||'';
+   const body=document.createElement('p');body.className='item-body'+(item.done?' done':'');
+   // Preserve plain text safely, but turn #tags in the thought itself into clickable filters.
+   // Text nodes avoid interpreting a user's note as HTML.
+   const content=item.content||'';
+   const tagPattern=/#[\p{L}\p{N}_-]+/gu;
+   let position=0;
+   for(const match of content.matchAll(tagPattern)){
+    body.append(document.createTextNode(content.slice(position,match.index)));
+    const tagButton=document.createElement('button');
+    tagButton.type='button';tagButton.className='item-tag inline-tag';
+    tagButton.dataset.tag=match[0].toLowerCase();
+    tagButton.textContent=match[0];
+    tagButton.setAttribute('aria-label',`Filter by ${match[0]}`);
+    body.append(tagButton);
+    position=match.index+match[0].length;
+   }
+   body.append(document.createTextNode(content.slice(position)));
    const controls=document.createElement('div');controls.className='item-controls';
    const add=(action,label)=>{const button=document.createElement('button');button.type='button';button.className='small-button';button.dataset.action=action;button.dataset.id=item.id;button.textContent=label;controls.append(button);return button;};
    add('star',item.starred?'★ Starred':'☆ Star').setAttribute('aria-pressed',String(!!item.starred));
