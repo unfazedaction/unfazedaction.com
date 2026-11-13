@@ -9,3 +9,13 @@
 .inline-edit-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
 .inline-edit-actions button{min-width:100px}
 .item-body[hidden],.item-controls[hidden]{display:none}
+
+/* Batch 2: fast capture, tag navigation, and task organization */
+.capture:focus-within{border-color:#5b3038}.capture textarea{font-size:16px}.capture textarea::placeholder{color:#828694}
+.tags-section{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.tags-section h3{margin:0 0 10px;font-size:14px}
+.tag-filters{display:flex;flex-wrap:wrap;gap:7px}.tag-chip{font-size:12px;padding:5px 9px;border:1px solid #444653;border-radius:20px;background:#1b1e28;color:#f3f3f6}.tag-chip.active{background:#4a1c23;border-color:#f04b55}
+.item-meta{align-items:center}.item-tag{border-radius:18px;border:1px solid #424653;background:#222633;color:#e2e2e8;font-size:11px;padding:3px 8px}.item-tag:hover{border-color:#ff5863}.item.done-item{opacity:.75}.item-body{line-height:1.65}.item:focus-within{border-color:#6c3038}
+.item-controls button[aria-pressed="true"]{color:#ffe4a0;border-color:#987a2b}.item-controls button[data-action="done"]{border-color:#46604b}.item-controls button[data-action="delete"]:hover{border-color:#e50914;color:#ffb9bc}
+#summary{margin-top:4px}.feed-header{flex-wrap:wrap}#search:focus,.signin-form input:focus,.fields select:focus,.fields input:focus{outline:2px solid #b21e29;outline-offset:1px}
+.item-controls [disabled],.inline-edit-actions [disabled]{opacity:.5}.empty{line-height:1.6}.filter.active{font-weight:750}
+@media(max-width:750px){.item{padding:15px}.item-controls{gap:7px}.small-button{min-height:38px}.capture-bottom .primary{width:100%}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.feed-header input{min-width:0}.tag-chip{min-height:34px}}
