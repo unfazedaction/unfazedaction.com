@@ -31,6 +31,28 @@
         href="/styles.css"
     >
 
+
+    <style>
+        /* ThoughtForge homepage feature — scoped to avoid affecting UA pages. */
+        .ua-thoughtforge-feature {
+            background: linear-gradient(130deg, #101218 0%, #171016 70%, #260d12 100%);
+            border-top: 1px solid rgba(255,255,255,.08);
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+        .ua-thoughtforge-panel {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 32px; flex-wrap: wrap; padding: 24px 0;
+        }
+        .ua-thoughtforge-copy { max-width: 700px; }
+        .ua-thoughtforge-copy .section-title { margin-bottom: 16px; }
+        .ua-thoughtforge-copy .section-copy { max-width: 660px; }
+        .ua-thoughtforge-cta { flex-shrink: 0; }
+        @media (max-width: 680px) {
+            .ua-thoughtforge-panel { align-items: flex-start; gap: 20px; }
+            .ua-thoughtforge-cta { width: 100%; text-align: center; }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -61,6 +83,10 @@
 
             <a href="/apps/">
                 Apps
+            </a>
+
+            <a href="/thoughtforge/">
+                ThoughtForge
             </a>
 
             <a href="#ua-plus">
@@ -410,6 +436,29 @@
 
     </section>
 
+
+
+    <!-- ThoughtForge: private second-brain workspace -->
+    <section class="section section-dark ua-thoughtforge-feature" id="thoughtforge">
+        <div class="container">
+            <div class="ua-thoughtforge-panel">
+                <div class="ua-thoughtforge-copy">
+                    <div class="eyebrow">UNFAZED ACTION / THOUGHTFORGE</div>
+                    <h2 class="section-title">
+                        Capture it now. Find it later.
+                    </h2>
+                    <p class="section-copy">
+                        Your private second brain inside Unfazed Action.
+                        Save thoughts, organize checklists, search what matters,
+                        and manage reminders across your phone and computers.
+                    </p>
+                </div>
+                <a class="button button-primary ua-thoughtforge-cta" href="/thoughtforge/">
+                    Open ThoughtForge
+                </a>
+            </div>
+        </div>
+    </section>
 
     <section class="section" id="ua-plus">
 
