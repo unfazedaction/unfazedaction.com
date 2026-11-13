@@ -1,6 +1,6 @@
 // Public Firebase web app identifiers (NOT a service-account credential).
 export const firebaseConfig = {
-  apiKey: "AIzaSyBBm3qGSKox3Y_UJvSR3i-cmphloBtY56s",
+  apiKey: "AIzaSyBBm3qGSKox3Y_UJvSR3i-cmph1oBtY56s",
   authDomain: "unfazed-action.firebaseapp.com",
   projectId: "unfazed-action",
   storageBucket: "unfazed-action.firebasestorage.app",
