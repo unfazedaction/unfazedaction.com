@@ -46,7 +46,38 @@ function start(){
    if(action==='delete'){if(!confirm('Delete this item permanently?'))return;await deleteDoc(ref);}
    if(action==='star'){await updateDoc(ref,{starred:!record.starred,updatedAt:serverTimestamp()});}
    if(action==='done'){await updateDoc(ref,{done:!record.done,updatedAt:serverTimestamp()});}
-   if(action==='edit'){const text=prompt('Edit your thought:',record.content);if(text===null)return;if(!text.trim())return;await updateDoc(ref,{content:text.trim(),tags:[...new Set((text.match(/#[\p{L}\p{N}_-]+/gu)||[]).map(t=>t.toLowerCase()))],updatedAt:serverTimestamp()});}
+   if(action==='edit'){
+    const card=btn.closest('.item');
+    if(!card||card.querySelector('.inline-editor'))return;
+    const body=card.querySelector('.item-body');
+    const controls=card.querySelector('.item-controls');
+    const editor=document.createElement('textarea');
+    editor.className='inline-editor';
+    editor.value=record.content||'';
+    editor.setAttribute('aria-label','Edit thought');
+    const actions=document.createElement('div');
+    actions.className='inline-edit-actions';
+    const saveButton=document.createElement('button');
+    saveButton.type='button';saveButton.className='primary';saveButton.textContent='Save Changes';
+    const cancelButton=document.createElement('button');
+    cancelButton.type='button';cancelButton.className='small-button';cancelButton.textContent='Cancel';
+    const error=document.createElement('p');error.className='error';error.hidden=true;
+    actions.append(saveButton,cancelButton);
+    body.hidden=true;controls.hidden=true;
+    body.after(editor,actions,error);
+    const close=()=>{editor.remove();actions.remove();error.remove();body.hidden=false;controls.hidden=false;};
+    cancelButton.onclick=close;
+    saveButton.onclick=async()=>{
+     const text=editor.value.trim();
+     if(!text){error.hidden=false;error.textContent='A thought cannot be empty.';editor.focus();return;}
+     saveButton.disabled=true;cancelButton.disabled=true;error.hidden=true;
+     try{
+      await updateDoc(ref,{content:text,tags:[...new Set((text.match(/#[\p{L}\p{N}_-]+/gu)||[]).map(t=>t.toLowerCase()))],updatedAt:serverTimestamp()});
+      close();
+     }catch(err){error.hidden=false;error.textContent='Could not save changes: '+err.message;saveButton.disabled=false;cancelButton.disabled=false;}
+    };
+    editor.focus();editor.setSelectionRange(editor.value.length,editor.value.length);
+   }
   }catch(err){$('feedError').hidden=false;$('feedError').textContent='Change failed: '+err.message;}
  });
  $('export').onclick=()=>{
