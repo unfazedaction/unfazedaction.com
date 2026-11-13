@@ -1,0 +1,48 @@
+// Reference only: deploy the COMPLETE ../firestore.rules, never this file alone.
+    // ThoughtForge V1: isolated personal capture records.
+    // Matches the web app's current data path. No anonymous account access.
+    function thoughtForgeOwner(userId) {
+      return isOwner(userId)
+             && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
+    function validThoughtForgeEntry(data) {
+      return data.keys().hasAll([
+               'content', 'kind', 'tags', 'dueAt', 'done',
+               'starred', 'createdAt', 'updatedAt'
+             ])
+             && data.keys().hasOnly([
+               'content', 'kind', 'tags', 'dueAt', 'done',
+               'starred', 'createdAt', 'updatedAt'
+             ])
+             && data.content is string
+             && data.content.size() > 0
+             && data.content.size() <= 12000
+             && data.kind in ['note', 'task', 'reminder']
+             && data.tags is list
+             && data.tags.size() <= 50
+             && (data.dueAt == null
+                 || (data.dueAt is string && data.dueAt.size() <= 40))
+             && data.done is bool
+             && data.starred is bool
+             && data.createdAt is timestamp
+             && data.updatedAt is timestamp;
+    }
+
+    match /thoughtforgeUsers/{userId}/items/{itemId} {
+      allow read: if thoughtForgeOwner(userId);
+
+      allow create: if thoughtForgeOwner(userId)
+                    && validThoughtForgeEntry(request.resource.data);
+
+      allow update: if thoughtForgeOwner(userId)
+                    && validThoughtForgeEntry(request.resource.data)
+                    && request.resource.data.kind == resource.data.kind
+                    && request.resource.data.createdAt == resource.data.createdAt
+                    && request.resource.data.dueAt == resource.data.dueAt
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['content', 'tags', 'done', 'starred', 'updatedAt']);
+
+      allow delete: if thoughtForgeOwner(userId);
+    }
+
