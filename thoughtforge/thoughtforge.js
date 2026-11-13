@@ -175,8 +175,14 @@ function start(){
  function render(){
   const queryText=$('search').value.trim().toLowerCase();
   const visible=records.filter(item=>{
-   const matchesFilter=filter==='all'||(filter==='starred'&&item.starred)||(filter==='open'&&item.kind==='task'&&!item.done)
-    ||(filter==='completed'&&item.kind==='task'&&item.done)||item.kind===filter;
+   // Completed tasks live only in Completed; they are never deleted from Firestore.
+   const isCompletedTask=item.kind==='task'&&item.done===true;
+   const matchesFilter=filter==='completed'
+    ? isCompletedTask
+    : !isCompletedTask&&(filter==='all'
+      ||(filter==='starred'&&item.starred===true)
+      ||(filter==='open'&&item.kind==='task')
+      ||item.kind===filter);
    const matchesTag=!selectedTag||(item.tags||[]).includes(selectedTag);
    const haystack=[item.content,item.kind,...(item.tags||[]),item.dueAt||'',repeatLabel(item)].join(' ').toLowerCase();
    return matchesFilter&&matchesTag&&(!queryText||haystack.includes(queryText));
