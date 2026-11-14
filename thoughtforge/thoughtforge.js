@@ -72,8 +72,25 @@ function start(){
   $('dueAt').required=mode!=='none';
   if(mode!=='none')$('kind').value='reminder';
  }
- $('repeat').onchange=repeatUI;
- $('kind').onchange=()=>{if($('kind').value!=='reminder'&&$('repeat').value!=='none')$('repeat').value='none';repeatUI();};
+ // Batch 4: lighter capture and navigation UI; no Firestore schema changes.
+ const typeChips=[...document.querySelectorAll('.type-chip')];
+ function reflectKind(){typeChips.forEach(chip=>{const active=chip.dataset.kind===$('kind').value;chip.classList.toggle('selected',active);chip.setAttribute('aria-pressed',String(active));});}
+ typeChips.forEach(chip=>chip.addEventListener('click',()=>{
+  $('kind').value=chip.dataset.kind;
+  if(chip.dataset.kind!=='reminder')$('repeat').value='none';
+  if(chip.dataset.kind==='reminder')$('captureOptions').open=true;
+  repeatUI();reflectKind();$('body').focus();
+ }));
+ $('focusSearch').onclick=()=>{$('feed').scrollIntoView({behavior:'smooth',block:'start'});$('search').focus({preventScroll:true});};
+ $('jumpLists').onclick=()=>$('checklists').scrollIntoView({behavior:'smooth',block:'start'});
+ $('jumpCapture').onclick=()=>{$('captureForm').scrollIntoView({behavior:'smooth',block:'start'});$('body').focus({preventScroll:true});};
+ document.addEventListener('keydown',event=>{
+  if(event.key==='/'&&!event.ctrlKey&&!event.metaKey&&!event.altKey&&!event.target.closest('input, textarea, select, [contenteditable="true"]')){
+   event.preventDefault();$('search').focus();
+  }
+ });
+ $('repeat').onchange=()=>{repeatUI();reflectKind();};
+ $('kind').onchange=()=>{if($('kind').value!=='reminder'&&$('repeat').value!=='none')$('repeat').value='none';repeatUI();reflectKind();};
  $('captureForm').onsubmit=async event=>{
   event.preventDefault();if(!user)return;
   const content=$('body').value.trim(),due=$('dueAt').value,repeat=$('repeat').value;
@@ -88,7 +105,7 @@ function start(){
    await addDoc(itemsRef(),{content,kind:$('kind').value,tags:tagsIn(content),dueAt:iso,
     done:false,starred:false,repeat,repeatDays:repeat==='weekdays'?repeatDays:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
    $('body').value='';$('dueAt').value='';$('repeat').value='none';$('kind').value='note';
-   $('repeatDaysBox').querySelectorAll('input').forEach(input=>input.checked=false);repeatUI();$('body').focus();
+   $('repeatDaysBox').querySelectorAll('input').forEach(input=>input.checked=false);repeatUI();reflectKind();$('captureOptions').open=false;$('body').focus();
   }catch(e){error('captureError','Could not save: '+e.message);}
   finally{$('save').disabled=false;$('save').textContent='Save thought';}
  };
