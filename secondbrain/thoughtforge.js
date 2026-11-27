@@ -1,4 +1,5 @@
 import {firebaseConfig} from './firebase-config.js';
+import {createSessionGuard,workspaceError} from '/assets/auth/session-guard.js';
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {getFirestore,collection,query,orderBy,onSnapshot,addDoc,updateDoc,deleteDoc,doc,serverTimestamp,runTransaction} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
@@ -10,7 +11,9 @@ const configured=Object.values(firebaseConfig).every(value=>typeof value==='stri
 if(!configured)show('setup');else import('/assets/auth/ua-auth.js').then(start).catch(()=>show('authUnavailable'));
 
 function start(api){
- const firebase=initializeApp(firebaseConfig),db=getFirestore(firebase);
+ const firebase=initializeApp(firebaseConfig),db=getFirestore(firebase),session=createSessionGuard();
+ let departing=false;
+ const current=ticket=>!departing&&session.current(ticket);
  let user=null,records=[],lists=[],stopEntries=null,stopLists=null,filter='all',selectedTag=null,editingId=null,editingListId=null,actionBusy=false;
  const error=(id,message)=>{$(id).hidden=!message;if(message)$(id).textContent=message;};
  const itemsRef=()=>collection(db,'thoughtforgeUsers',user.uid,'items');
@@ -31,15 +34,20 @@ function start(api){
    const lastDay=new Date(date.getFullYear(),date.getMonth()+1,0).getDate();date.setDate(Math.min(day,lastDay));
   }else if(mode==='weekdays'){
    const days=(item.repeatDays||[]).map(Number);
-   if(!days.length)throw Error('This reminder needs at least one weekday.');
+   if(!days.length||!days.some(day=>Number.isInteger(day)&&day>=0&&day<=6))throw Error('This reminder needs at least one valid weekday.');
    do{date.setDate(date.getDate()+1);}while(!days.includes(date.getDay()));
   }else throw Error('Not a repeating reminder.');
   return date.toISOString();
  }
  function resetSession(){
+  session.clear();actionBusy=false;
   if(stopEntries){stopEntries();stopEntries=null;}if(stopLists){stopLists();stopLists=null;}
   records=[];lists=[];editingId=null;editingListId=null;filter='all';selectedTag=null;
-  $('search').value='';$('items').replaceChildren();$('lists').replaceChildren();$('count').textContent='0';
+  $('captureForm').reset();$('newListForm').reset();$('captureOptions').open=false;repeatUI();reflectKind();
+  $('save').disabled=false;$('save').textContent='Save to Second Brain ↗';$('createList').disabled=false;
+  $('search').value='';$('items').replaceChildren();$('lists').replaceChildren();$('tagFilters').replaceChildren();$('count').textContent='0';$('summary').textContent='';$('syncStatus').textContent='Connecting…';
+  for(const id of ['captureError','feedError','listError']){$(id).textContent='';$(id).hidden=true;}
+  $('empty').hidden=true;$('listsEmpty').hidden=true;
   document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));
  }
  let signingOut=false;
@@ -55,27 +63,31 @@ function start(api){
   try{await api.signOutOfUA();hideAccount();resetSession();user=null;window.location.replace('/signin/');}
   catch(e){if(user){error('feedError',api.accountErrorMessage(e));signingOut=false;$('signOut').disabled=false;}}
  };
- window.addEventListener('pagehide',()=>{hideAccount();});
+ window.addEventListener('pagehide',()=>{departing=true;hideAccount();resetSession();user=null;});
  window.addEventListener('pageshow',event=>{if(event.persisted)window.location.reload();});
  api.observeAccount(next=>{
+  if(departing)return;
   // Never let callbacks or unsaved input from one account carry into another.
-  if(user&&next&&user.uid!==next.uid){hideAccount();resetSession();user=null;window.location.reload();return;}
+  if(user&&next&&user.uid!==next.uid){departing=true;hideAccount();resetSession();user=null;window.location.reload();return;}
   if(user&&next&&user.uid===next.uid)return;
   hideAccount();resetSession();user=next;
   if(!user){show('signedOut');window.location.replace(signingOut?'/signin/':'/signin/?continue=secondbrain');return;}
+  const ticket=session.start(user.uid);
   $('signOut').hidden=false;$('memberLink').hidden=false;
   show('app');$('syncStatus').textContent='Connecting…';error('feedError','');error('listError','');
   stopEntries=onSnapshot(query(itemsRef(),orderBy('createdAt','desc')),snapshot=>{
+   if(!current(ticket))return;
    records=snapshot.docs.map(entry=>({id:entry.id,...entry.data()}));
    $('syncStatus').textContent=snapshot.metadata.fromCache?'Offline / cached':'Synced';error('feedError','');
    if(editingId&&!records.some(item=>item.id===editingId))editingId=null;
    render();
-  },e=>{$('syncStatus').textContent='Sync unavailable';error('feedError','Unable to load thoughts: '+e.message);});
+  },e=>{if(!current(ticket))return;$('syncStatus').textContent='Sync unavailable';error('feedError',workspaceError(e,'Unable to load thoughts.'));});
   stopLists=onSnapshot(query(listsRef(),orderBy('createdAt','desc')),snapshot=>{
+   if(!current(ticket))return;
    lists=snapshot.docs.map(entry=>({id:entry.id,...entry.data()}));
    if(editingListId&&!lists.some(item=>item.id===editingListId))editingListId=null;
    renderLists();
-  },e=>error('listError','Unable to load checklists: '+e.message));
+  },e=>{if(current(ticket))error('listError',workspaceError(e,'Unable to load checklists.'));});
  },authUnavailable);
  function repeatUI(){
   const mode=$('repeat').value;
@@ -103,7 +115,7 @@ function start(api){
  $('repeat').onchange=()=>{repeatUI();reflectKind();};
  $('kind').onchange=()=>{if($('kind').value!=='reminder'&&$('repeat').value!=='none')$('repeat').value='none';repeatUI();reflectKind();};
  $('captureForm').onsubmit=async event=>{
-  event.preventDefault();if(!user)return;
+  event.preventDefault();const ticket=session.ticket();if(!current(ticket))return;
   const content=$('body').value.trim(),due=$('dueAt').value,repeat=$('repeat').value;
   const repeatDays=[...$('repeatDaysBox').querySelectorAll('input:checked')].map(input=>Number(input.value));
   if(!content)return;
@@ -115,10 +127,11 @@ function start(api){
   try{
    await addDoc(itemsRef(),{content,kind:$('kind').value,tags:tagsIn(content),dueAt:iso,
     done:false,starred:false,repeat,repeatDays:repeat==='weekdays'?repeatDays:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+   if(!current(ticket))return;
    $('body').value='';$('dueAt').value='';$('repeat').value='none';$('kind').value='note';
    $('repeatDaysBox').querySelectorAll('input').forEach(input=>input.checked=false);repeatUI();reflectKind();$('captureOptions').open=false;$('body').focus();
-  }catch(e){error('captureError','Could not save: '+e.message);}
-  finally{$('save').disabled=false;$('save').textContent='Save thought';}
+  }catch(e){if(current(ticket))error('captureError',workspaceError(e,'Could not save thought.'));}
+  finally{if(current(ticket)){$('save').disabled=false;$('save').textContent='Save thought';}}
  };
  $('body').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('captureForm').requestSubmit();}});
  document.querySelectorAll('.filter').forEach(button=>button.onclick=()=>{filter=button.dataset.filter;document.querySelectorAll('.filter').forEach(other=>other.classList.toggle('active',other===button));render();});
@@ -133,6 +146,7 @@ function start(api){
   const item=records.find(record=>record.id===id);if(!item)return;
   if(action==='edit'){openEditor(item);return;}
   if(action==='delete'&&!confirm('Permanently delete this item?'))return;
+  const ticket=session.ticket();if(!current(ticket))return;
   actionBusy=true;b.disabled=true;error('feedError','');
   try{
    if(action==='star')await updateDoc(entryRef(id),{starred:!item.starred,updatedAt:serverTimestamp()});
@@ -142,10 +156,11 @@ function start(api){
      await updateDoc(entryRef(id),{dueAt:nextOccurrence(item),done:false,updatedAt:serverTimestamp()});
     }else await updateDoc(entryRef(id),{done:!item.done,updatedAt:serverTimestamp()});
    }else if(action==='delete')await deleteDoc(entryRef(id));
-  }catch(err){error('feedError','Change failed: '+err.message);}
-  finally{actionBusy=false;b.disabled=false;}
+  }catch(err){if(current(ticket))error('feedError',workspaceError(err,'Change failed.'));}
+  finally{if(current(ticket)){actionBusy=false;b.disabled=false;}}
  });
  $('export').onclick=()=>{
+  if(!current(session.ticket()))return;
   const serializeTimestamp=value=>value?.toDate?.()?.toISOString()??null;
   const output={version:3,exportedAt:new Date().toISOString(),entries:records.map(item=>({
    ...item,createdAt:serializeTimestamp(item.createdAt),updatedAt:serializeTimestamp(item.updatedAt)
@@ -154,7 +169,7 @@ function start(api){
   link.href=url;link.download='thoughtforge-export-'+new Date().toISOString().slice(0,10)+'.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  };
  function openEditor(item){
-  if(editingId)return;
+  const ticket=session.ticket();if(editingId||!current(ticket))return;
   const card=[...$('items').children].find(element=>element.dataset.id===item.id);if(!card)return;
   editingId=item.id;
   const body=card.querySelector('.item-body'),controls=card.querySelector('.item-controls');
@@ -184,8 +199,9 @@ function start(api){
    extra.append(dateLabel,repeatLabel,weekdayBox);
   }
   row.append(save,cancel);body.hidden=true;controls.hidden=true;body.after(field,extra,row,localError);field.focus();
-  const close=()=>{editingId=null;render();};cancel.onclick=close;
+  const close=()=>{if(current(ticket)){editingId=null;render();}};cancel.onclick=close;
   save.onclick=async()=>{
+   if(!current(ticket))return;
    const text=field.value.trim();if(!text){localError.hidden=false;localError.textContent='A thought cannot be empty.';return;}
    const change={content:text,tags:tagsIn(text),updatedAt:serverTimestamp()};
    if(item.kind==='reminder'){
@@ -197,7 +213,7 @@ function start(api){
    }
    save.disabled=true;cancel.disabled=true;localError.hidden=true;
    try{await updateDoc(entryRef(item.id),change);close();}
-   catch(e){localError.hidden=false;localError.textContent='Could not save: '+e.message;save.disabled=false;cancel.disabled=false;}
+   catch(e){if(current(ticket)){localError.hidden=false;localError.textContent=workspaceError(e,'Could not save changes.');save.disabled=false;cancel.disabled=false;}}
   };
  }
  function render(){
@@ -257,41 +273,43 @@ function start(api){
 
  // Named checklists are separate private Firestore documents, not hashtag-based task groupings.
  $('newListForm').onsubmit=async e=>{
-  e.preventDefault();if(!user)return;
+  e.preventDefault();const ticket=session.ticket();if(!current(ticket))return;
   const title=$('newListTitle').value.trim();if(!title)return;
   $('createList').disabled=true;error('listError','');
-  try{await addDoc(listsRef(),{title,items:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp()});$('newListTitle').value='';}
-  catch(err){error('listError','Could not create list: '+err.message);}
-  finally{$('createList').disabled=false;}
+  try{await addDoc(listsRef(),{title,items:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp()});if(current(ticket))$('newListTitle').value='';}
+  catch(err){if(current(ticket))error('listError',workspaceError(err,'Could not create list.'));}
+  finally{if(current(ticket))$('createList').disabled=false;}
  };
  $('lists').addEventListener('submit',async e=>{
   if(!e.target.matches('.list-add'))return;
   e.preventDefault();const form=e.target,id=form.closest('.list-card')?.dataset.id;
-  const input=form.querySelector('input'),text=input?.value.trim();if(!id||!text||!user)return;
+  const input=form.querySelector('input'),text=input?.value.trim();const ticket=session.ticket();if(!id||!text||!current(ticket))return;
+  const ref=listRef(id),newItemId=doc(listsRef()).id;
   const button=form.querySelector('button');button.disabled=true;error('listError','');
   try{
    await runTransaction(db,async transaction=>{
-    const ref=listRef(id),snapshot=await transaction.get(ref);if(!snapshot.exists())throw Error('This list was deleted.');
+    if(!current(ticket))throw Error('Session changed.');
+    const snapshot=await transaction.get(ref);if(!current(ticket)||!snapshot.exists())throw Error('List unavailable.');
     const data=snapshot.data(),items=data.items||[];if(items.length>=100)throw Error('A list can contain at most 100 items.');
-    transaction.update(ref,{items:[...items,{id:doc(listsRef()).id,text,done:false}],updatedAt:serverTimestamp()});
-   });input.value='';
-  }catch(err){error('listError','Could not add list item: '+err.message);}
-  finally{button.disabled=false;}
+    transaction.update(ref,{items:[...items,{id:newItemId,text,done:false}],updatedAt:serverTimestamp()});
+   });if(current(ticket))input.value='';
+  }catch(err){if(current(ticket))error('listError',workspaceError(err,'Could not add list item. A list can contain at most 100 items.'));}
+  finally{if(current(ticket))button.disabled=false;}
  });
  $('lists').addEventListener('click',async e=>{
   const b=e.target.closest('button[data-action]');if(!b||!user)return;
   const card=b.closest('.list-card'),id=card?.dataset.id,action=b.dataset.action;
-  if(!id)return;
+  const ticket=session.ticket();if(!id||!current(ticket))return;
   if(action==='rename'){
    if(editingListId)return;editingListId=id;
    const header=card.querySelector('.list-header'),form=document.createElement('form');form.className='list-rename';
    const input=document.createElement('input');input.value=lists.find(l=>l.id===id)?.title||'';input.maxLength=120;input.required=true;
    const save=document.createElement('button');save.type='submit';save.className='primary';save.textContent='Save';
    const cancel=newButton('Cancel');form.append(input,save,cancel);header.after(form);input.focus();
-   cancel.onclick=()=>{editingListId=null;form.remove();};
-   form.onsubmit=async event=>{event.preventDefault();const title=input.value.trim();if(!title)return;
-    save.disabled=true;try{await updateDoc(listRef(id),{title,updatedAt:serverTimestamp()});editingListId=null;form.remove();}
-    catch(err){error('listError','Could not rename list: '+err.message);save.disabled=false;}
+   cancel.onclick=()=>{if(current(ticket)){editingListId=null;form.remove();}};
+   form.onsubmit=async event=>{event.preventDefault();if(!current(ticket))return;const title=input.value.trim();if(!title)return;
+    save.disabled=true;try{await updateDoc(listRef(id),{title,updatedAt:serverTimestamp()});if(current(ticket)){editingListId=null;form.remove();}}
+    catch(err){if(current(ticket)){error('listError',workspaceError(err,'Could not rename list.'));save.disabled=false;}}
    };return;
   }
   if(action==='delete-list'&&!confirm('Permanently delete this checklist and all its items?'))return;
@@ -299,16 +317,17 @@ function start(api){
   b.disabled=true;error('listError','');
   try{
    if(action==='delete-list'){await deleteDoc(listRef(id));return;}
-   const itemId=b.dataset.item;
+   const itemId=b.dataset.item,ref=listRef(id);
    await runTransaction(db,async transaction=>{
-    const ref=listRef(id),snapshot=await transaction.get(ref);if(!snapshot.exists())throw Error('Checklist no longer exists.');
+    if(!current(ticket))throw Error('Session changed.');
+    const snapshot=await transaction.get(ref);if(!current(ticket)||!snapshot.exists())throw Error('Checklist unavailable.');
     const data=snapshot.data();let items=data.items||[];
     if(action==='delete-item')items=items.filter(item=>item.id!==itemId);
     else if(action==='toggle-item')items=items.map(item=>item.id===itemId?{...item,done:!item.done}:item);
     transaction.update(ref,{items,updatedAt:serverTimestamp()});
    });
-  }catch(err){error('listError','Could not update checklist: '+err.message);}
-  finally{b.disabled=false;}
+  }catch(err){if(current(ticket))error('listError',workspaceError(err,'Could not update checklist.'));}
+  finally{if(current(ticket))b.disabled=false;}
  });
  function renderLists(){
   const target=$('lists');target.replaceChildren();$('listsEmpty').hidden=lists.length>0;
