@@ -5,8 +5,8 @@ const show=id=>panels.forEach(name=>{$(name).hidden=name!==id;});
 const error=(id,message='')=>{const node=$(id);node.textContent=message;node.hidden=!message;};
 const clearPassword=()=>{$('password').value='';$('password').type='password';$('togglePassword').textContent='Show';$('togglePassword').setAttribute('aria-pressed','false');};
 let api=null,busy=false,ready=false;
-function setBusy(value){busy=value;$('submit').disabled=value||!ready;$('signOut').disabled=value;$('email').disabled=value;$('password').disabled=value;$('remember').disabled=value;$('togglePassword').disabled=value;}
-function startupFailed(){ready=false;setBusy(false);clearPassword();$('accountEmail').textContent='';show('unavailable');}
+function setBusy(value){busy=value;$('submit').disabled=value||!ready;$('email').disabled=value;$('password').disabled=value;$('remember').disabled=value;$('togglePassword').disabled=value;}
+function startupFailed(){ready=false;setBusy(false);clearPassword();show('unavailable');}
 $('togglePassword').addEventListener('click',()=>{const visible=$('password').type==='password';$('password').type=visible?'text':'password';$('togglePassword').textContent=visible?'Hide':'Show';$('togglePassword').setAttribute('aria-pressed',String(visible));});
 $('signInForm').addEventListener('submit',async event=>{
  event.preventDefault();
@@ -17,20 +17,12 @@ $('signInForm').addEventListener('submit',async event=>{
  catch(e){error('signInError',api.accountErrorMessage(e));}
  finally{clearPassword();$('submit').textContent='Sign In';setBusy(false);}
 });
-$('signOut').addEventListener('click',async()=>{
- if(!ready||busy||!api)return;
- setBusy(true);error('signOutError');$('signOut').textContent='Signing out…';
- try{await api.signOutOfUA();}
- catch(e){error('signOutError',api.accountErrorMessage(e));}
- finally{$('signOut').textContent='Sign Out';setBusy(false);}
-});
 async function start(){
  try{
   api=await import('./ua-auth.js');
   api.observeAccount(account=>{
-   ready=true;clearPassword();error('signInError');error('signOutError');
-   $('accountEmail').textContent=account?(account.email||'UA Account'):'';
-   if(account){$('email').value='';$('remember').checked=false;show('signedIn');}
+   ready=true;clearPassword();error('signInError');
+   if(account){$('email').value='';$('remember').checked=false;show('signedIn');window.location.replace('/members/');return;}
    else{show('signedOut');}
    setBusy(busy);
   },startupFailed);
