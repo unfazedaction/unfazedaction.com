@@ -22,7 +22,7 @@ async function start(){
   api=await import('./ua-auth.js');
   api.observeAccount(account=>{
    ready=true;clearPassword();error('signInError');
-   if(account){$('email').value='';$('remember').checked=false;show('signedIn');window.location.replace('/members/');return;}
+   if(account){$('email').value='';$('remember').checked=false;show('signedIn');window.location.replace(new URLSearchParams(window.location.search).get('continue')==='secondbrain'?'/secondbrain/':'/members/');return;}
    else{show('signedOut');}
    setBusy(busy);
   },startupFailed);
