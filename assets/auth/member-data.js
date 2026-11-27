@@ -41,7 +41,7 @@ export async function families(uid,includeMembers=false){
      }else rows.push('UA+ family sharing record present; effective access not independently verified.');
     }else rows.push('UA+ family sharing not confirmed.');
    }catch{rows.push('UA+ family sharing status unavailable.');}
-   if(includeMembers){
+   if(includeMembers&&m.role==='OWNER'){
     try{
      const members=await getDocsFromServer(collection(db,'ua_families',id,'members'));
      for(const member of members.docs){
@@ -51,7 +51,7 @@ export async function families(uid,includeMembers=false){
       if(role&&typeof v.displayName==='string'&&(role!=='Managed profile'||m.role==='OWNER'))rows.push('Member: '+v.displayName+' — '+role);
      }
     }catch{rows.push('Family member list unavailable.');}
-   }
+   }else if(includeMembers){rows.push('Member list is currently available to the family owner only on the website.');}
   }catch{rows.push('A family membership could not be loaded.');}
  }
  return rows.length?rows:['No verified active family memberships found.'];
