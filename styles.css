@@ -177,7 +177,7 @@
             /* Fallback if the video cannot load or play. */
             background:
                 var(--ua-black)
-                url("/assets/ua-hero.jpg")
+                url("/assets/ua-hero.png")
                 center center / cover
                 no-repeat;
         }
@@ -372,7 +372,7 @@
 
         .ecosystem-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 16px;
             margin-top: 34px;
         }
@@ -783,3 +783,11 @@
                 align-items: flex-start;
             }
         }
+
+/* Homepage brand and membership layout */
+.brand-supporting { margin-top: 18px; }
+.membership-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.plus-wrap > .section-title, .plus-wrap > .section-copy, .plus-wrap > .eyebrow { position: relative; z-index: 1; }
+.app-pill[href]:hover, .app-pill[href]:focus-visible { border-color: #929292; color: #fff; }
+@media (max-width: 980px) { .membership-grid { grid-template-columns: 1fr; } }
+@media (min-width: 681px) and (max-width: 980px) { .ecosystem-grid > :last-child { grid-column: 1 / -1; } }
