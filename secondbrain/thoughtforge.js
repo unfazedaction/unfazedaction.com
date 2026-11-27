@@ -1,6 +1,5 @@
 import {firebaseConfig} from './firebase-config.js';
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import {getFirestore,collection,query,orderBy,onSnapshot,addDoc,updateDoc,deleteDoc,doc,serverTimestamp,runTransaction} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
 // ThoughtForge Batch 3 — compatible with Batch 1/2 records and Firebase account.
@@ -8,10 +7,10 @@ const $=id=>document.getElementById(id);
 const tagsIn=value=>[...new Set((value.match(/#[\p{L}\p{N}_-]+/gu)||[]).map(t=>t.toLowerCase()))].slice(0,50);
 const show=id=>{document.querySelectorAll('.state').forEach(panel=>panel.hidden=true);$('app').hidden=id!=='app';if(id!=='app')$(id).hidden=false;};
 const configured=Object.values(firebaseConfig).every(value=>typeof value==='string'&&!value.includes('REPLACE_ME'));
-if(!configured)show('setup');else start();
+if(!configured)show('setup');else import('/assets/auth/ua-auth.js').then(start).catch(()=>show('authUnavailable'));
 
-function start(){
- const firebase=initializeApp(firebaseConfig),auth=getAuth(firebase),db=getFirestore(firebase);
+function start(api){
+ const firebase=initializeApp(firebaseConfig),db=getFirestore(firebase);
  let user=null,records=[],lists=[],stopEntries=null,stopLists=null,filter='all',selectedTag=null,editingId=null,editingListId=null,actionBusy=false;
  const error=(id,message)=>{$(id).hidden=!message;if(message)$(id).textContent=message;};
  const itemsRef=()=>collection(db,'thoughtforgeUsers',user.uid,'items');
@@ -43,16 +42,28 @@ function start(){
   $('search').value='';$('items').replaceChildren();$('lists').replaceChildren();$('count').textContent='0';
   document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));
  }
- $('signInForm').onsubmit=async event=>{
-  event.preventDefault();$('signIn').disabled=true;error('signInError','');
-  try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);$('password').value='';}
-  catch(e){error('signInError',e.code==='auth/invalid-credential'?'Email or password not recognized.':`Sign-in failed (${e.code||'unknown error'}).`);}
-  finally{$('signIn').disabled=false;}
+ let signingOut=false;
+ function hideAccount(){
+  $('signOut').hidden=true;$('memberLink').hidden=true;show('loading');
+ }
+ function authUnavailable(){
+  hideAccount();resetSession();user=null;show('authUnavailable');
+ }
+ $('signOut').onclick=async()=>{
+  if(!user||signingOut)return;
+  signingOut=true;$('signOut').disabled=true;
+  try{await api.signOutOfUA();hideAccount();resetSession();user=null;window.location.replace('/signin/');}
+  catch(e){if(user){error('feedError',api.accountErrorMessage(e));signingOut=false;$('signOut').disabled=false;}}
  };
- $('signOut').onclick=()=>signOut(auth).catch(e=>error('feedError','Sign-out failed: '+e.message));
- onAuthStateChanged(auth,next=>{
-  resetSession();user=next;$('signOut').hidden=!user;
-  if(!user){show('signedOut');return;}
+ window.addEventListener('pagehide',()=>{hideAccount();});
+ window.addEventListener('pageshow',event=>{if(event.persisted)window.location.reload();});
+ api.observeAccount(next=>{
+  // Never let callbacks or unsaved input from one account carry into another.
+  if(user&&next&&user.uid!==next.uid){hideAccount();resetSession();user=null;window.location.reload();return;}
+  if(user&&next&&user.uid===next.uid)return;
+  hideAccount();resetSession();user=next;
+  if(!user){show('signedOut');window.location.replace(signingOut?'/signin/':'/signin/?continue=secondbrain');return;}
+  $('signOut').hidden=false;$('memberLink').hidden=false;
   show('app');$('syncStatus').textContent='Connecting…';error('feedError','');error('listError','');
   stopEntries=onSnapshot(query(itemsRef(),orderBy('createdAt','desc')),snapshot=>{
    records=snapshot.docs.map(entry=>({id:entry.id,...entry.data()}));
@@ -65,7 +76,7 @@ function start(){
    if(editingListId&&!lists.some(item=>item.id===editingListId))editingListId=null;
    renderLists();
   },e=>error('listError','Unable to load checklists: '+e.message));
- });
+ },authUnavailable);
  function repeatUI(){
   const mode=$('repeat').value;
   $('repeatDaysBox').hidden=mode!=='weekdays';
