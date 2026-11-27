@@ -4,8 +4,8 @@ const panels=['loading','unavailable','memberContent'];
 const show=id=>panels.forEach(name=>{$(name).hidden=name!==id;});
 let api=null,ready=false,busy=false,active=false;
 function clearIdentity(){
- $('greeting').textContent='Welcome back.';
- $('accountEmail').textContent='';$('accountName').textContent='';$('nameRow').hidden=true;$('verification').textContent='';
+ for(const id of ['accountEmail','accountName','verification']){const node=$(id);if(node)node.textContent='';}
+ if($('nameRow'))$('nameRow').hidden=true;
  $('signOutError').textContent='';$('signOutError').hidden=true;$('signOut').hidden=true;active=false;
 }
 function unavailable(){
@@ -15,9 +15,9 @@ function handleAccount(account){
  clearIdentity();
  if(!account){ready=false;show('loading');window.location.replace('/signin/');return;}
  ready=true;active=true;
- $('accountEmail').textContent=account.email||'Not available';
- if(account.displayName){$('accountName').textContent=account.displayName;$('nameRow').hidden=false;}
- $('verification').textContent=account.emailVerified?'Verified':'Not verified';
+ if($('accountEmail'))$('accountEmail').textContent=account.email||'Not available';
+ if(account.displayName&&$('accountName')){$('accountName').textContent=account.displayName;$('nameRow').hidden=false;}
+ if($('verification'))$('verification').textContent=account.emailVerified?'Verified':'Not verified';
  $('signOut').hidden=false;$('signOut').disabled=busy;show('memberContent');
 }
 $('signOut').addEventListener('click',async()=>{
